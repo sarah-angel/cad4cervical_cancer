@@ -1,2 +1,5 @@
 node_modules
 dist
+.env
+test.html
+test.js
