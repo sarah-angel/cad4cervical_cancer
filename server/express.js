@@ -4,8 +4,10 @@ import cookieParser from 'cookie-parser'
 import compress from 'compression'
 import cors from 'cors'
 import helmet from 'helmet'
+
 import userRoutes from './routes/user.routes'
 import authRoutes from './routes/auth.routes'
+import patientRoutes from './routes/patient.routes'
 
 const app = express()
 
@@ -32,5 +34,7 @@ app.use((err, req, res, next) => {
 
 app.use('/', userRoutes)
 app.use('/', authRoutes)
+app.use('/', patientRoutes)
+
 
 export default app
