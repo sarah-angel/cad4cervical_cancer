@@ -12,9 +12,15 @@ const auth = {
         if(typeof window == "undefined")
             return false
         if( sessionStorage.getItem('c4cc_jwt'))
-            return JSON.parse(sessionStorage.getItem('jwt'))
+            return JSON.parse(sessionStorage.getItem('c4cc_jwt'))
         else
             return false
+    },
+
+    //returns department of authenticated user
+    getDepartment() {
+        var token = JSON.parse(sessionStorage.getItem('c4cc_jwt'))
+        return token.user.department
     },
 
     //deletes credentials on signout
