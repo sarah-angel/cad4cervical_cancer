@@ -25,13 +25,12 @@ const signin = (req, res) => {
         }
 
         const token = jwt.sign({
-            _id: user._id,
-            department: user.department
+            _id: user._id
         }, config.jwtSecret)
 
         return res.json({
             token,
-            user: {_id: user._id, username: user.username}
+            user: {_id: user._id, username: user.username, department: user.department}
         })
     })
 }
