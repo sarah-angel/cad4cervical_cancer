@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import auth from './auth/auth-helper'
 import PhysiologyHome from './components/physiology/PhysiologyHome'
-import RadiologyHome from './components/radiology/RadiologyHome'
+import RadiologyRouter from './components/radiology/RadiologyRouter'
 
 //if user not signed in, redirect to /signin
 //if path is / get department of user and redirect to specific route
@@ -15,7 +15,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
                 <Component {...props}/>
             ) : (
                 (auth.getDepartment() === 'radiology' ) ? (
-                    <RadiologyHome {...props} />
+                    <RadiologyRouter {...props} />
                 ) : (
                     <PhysiologyHome {...props} />
                 )

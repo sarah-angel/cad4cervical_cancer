@@ -29,6 +29,7 @@ const Menu = withRouter(({history}) => (
                     </IconButton>
                 </Link>
 
+                <div style={{float: "right"}} >
                 {!auth.isAuthenticated() && (
                     <span>
                         <Link to="/signin">
@@ -40,13 +41,14 @@ const Menu = withRouter(({history}) => (
                 )}
 
                 {auth.isAuthenticated() && (
-                    <span>
+                    <span style={{float: "right"}}>
                         <Button color="inherit" 
                             onClick={() => { auth.signout(() => history.push('/'))}}>
                                 Sign Out
                         </Button>
                     </span>
                 )}
+                </div>
             </Toolbar>
         </AppBar>
     </div>

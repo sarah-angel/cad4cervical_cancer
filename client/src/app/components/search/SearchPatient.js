@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import  SearchBar from 'material-ui-search-bar'
 import { read } from '../../helpers/api-patient'
+import { Typography } from 'material-ui'
 
 class SearchPatient extends Component {
     state = {
@@ -19,15 +20,28 @@ class SearchPatient extends Component {
         })
     }
 
+    handleChange = (search) => {
+        this.setState({value: search})
+    }
 
     render() {
         return (
+            <div>
             <SearchBar 
                 value={this.state.value}
-                onChange={(search) => this.setState({value: search})}
+                onChange={this.handleChange}
                 onRequestSearch={this.getPatient}
                 stye={{margin: '0 auto',
-                        maxWidth: 800}} />
+                maxWidth: 800}} />
+
+            {this.state.error && (
+                <Typography component="p" color="error">
+                    {this.state.error}
+                </Typography>
+            )}
+
+            </div>
+
         )
     }
 }
