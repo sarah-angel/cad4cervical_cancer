@@ -4,7 +4,9 @@ import { CardContent } from 'material-ui/Card'
 
 
 const styles = {
-    
+    column: {
+        width: '30%'
+    }
 }
 
 class PatientDetails extends Component{
@@ -32,12 +34,15 @@ class PatientDetails extends Component{
                     <Tab label="History" />
                 </Tabs>
 
+                {
+                    //remember to make the Card collapsible to save space on the screen
+                }
                 <Card>
                     <Typography type="title" component="h2">
                         Patient Details
                     </Typography>
-                    <CardContent>
-                        <div style={{float: "left"}}>
+                    <CardContent style={{display: "flex"}}>
+                        <div style={styles.column}>
                            <Typography component="p">
                             First Name: {patient.firstname}
                         </Typography>
@@ -48,8 +53,7 @@ class PatientDetails extends Component{
                             Last Name: {patient.surname}
                         </Typography> 
                         </div>
-                        <div style={{float: "right"}}>
-                        <div style={{float: "left"}}>
+                        <div style={styles.column}>
                         <Typography component="p">
                             Date of Birth: {patient.date_of_birth}
                         </Typography>
@@ -60,7 +64,7 @@ class PatientDetails extends Component{
                             Blood Type: {patient.blood_type}
                         </Typography> 
                         </div>
-                        <div style={{float: "right", marginLeft: 200}}>
+                        <div style={styles.column}>
                         <Typography component="p">
                             Occupation: {patient.occupation}
                         </Typography>
@@ -73,7 +77,6 @@ class PatientDetails extends Component{
                         <Typography component="p">
                             Marital Status: {patient.marital_status}
                         </Typography> 
-                        </div>
                         </div>
                     </CardContent>
                 </Card>

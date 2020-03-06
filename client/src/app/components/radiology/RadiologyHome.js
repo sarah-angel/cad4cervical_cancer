@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Typography } from 'material-ui'
+import { Typography } from 'material-ui'
 import { CardContent, CardMedia } from 'material-ui/Card'
 import uploadImg from '../../../assets/images/upload-big-arrow.png'
 import SearchPatient from '../search/SearchPatient'
@@ -60,9 +60,9 @@ class RadiologyHome extends Component {
             )
 
         if ( this.state.image )
-                  return (
-                      <Assessment image={this.state.image} patient={this.state.patient} />
-                  )
+            return (
+                <Assessment image={this.state.image} patient={this.state.patient} />
+            )
 
         return (
             <div>
