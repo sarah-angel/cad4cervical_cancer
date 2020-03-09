@@ -105,8 +105,8 @@ class Assessment extends Component{
                 { (this.state.error) }
                 
                 <div>
-                    <Button onClick={this.handleSave}>Save</Button>
-                    <Button onClick={this.handleDiscard}>Discard</Button>
+                    <Button onClick={this.handleSave} color="primary">Save</Button>
+                    <Button onClick={this.handleDiscard} color="secondary">Discard</Button>
                 </div>
                 
             </div>

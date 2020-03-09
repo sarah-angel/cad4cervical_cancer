@@ -58,7 +58,7 @@ class RadiologyHome extends Component {
     }
 
     //To-Do: Tabs duplicated 3 times!!? Refactor
-    
+
     render() {
         if ( !this.state.patient )
             return (
@@ -81,7 +81,7 @@ class RadiologyHome extends Component {
                         <Tab label="Consultation" />
                         <Tab label="History" />
                     </Tabs>
-                    <History patient={this.state.patient._id} />
+                    <History patient={this.state.patient} />
                     </div>
                 )
 
