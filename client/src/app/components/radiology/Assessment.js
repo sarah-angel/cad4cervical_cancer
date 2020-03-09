@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PatientDetails from '../patient/PatientDetails'
-import { assessImage, saveReport } from '../../helpers/api-assessment'
+import { assessImage, saveReport } from '../../helpers/api-radiology'
 import auth from '../../auth/auth-helper'
 import { Button, Typography, TextField, Checkbox } from '@material-ui/core'
 
@@ -24,7 +24,7 @@ class Assessment extends Component{
         heatmap: null,
         comments: '',
         disagree: false,
-        error: ''
+        error: '',
     }
 
     componentDidMount = () => {
@@ -60,7 +60,7 @@ class Assessment extends Component{
             if( data.error )
                 this.setState({error: data.error})
             else{
-                //show success message
+                //To-Do: show success message
                 //reset state and go to home
                 console.log(data.message)
                 window.location.href="/"
@@ -68,7 +68,7 @@ class Assessment extends Component{
         })
     }
 
-    //Ask user for confirmation 
+    //To-Do: Ask user for confirmation 
     //reset state and go to home
     handleDiscard = (event) => {
         window.location.href="/"
@@ -77,6 +77,7 @@ class Assessment extends Component{
     render() {
         return (
             <div>
+                
                 <PatientDetails patient={this.state.patient} />
                
                <div style={{display: "flex"}}>

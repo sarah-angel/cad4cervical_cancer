@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Tabs, Tab, Card, Typography } from 'material-ui'
+import { Card, Typography } from 'material-ui'
 import { CardContent } from 'material-ui/Card'
 
 
@@ -10,32 +10,14 @@ const styles = {
 }
 
 class PatientDetails extends Component{
-    state = {
-        tab: 0 //first tab
-    }
-
-    handleTabChange = (event, newValue) => {
-        this.setState({tab: newValue})
-    }
 
     render() {
         const patient = this.props.patient
 
         return (
             <div>
-                <Tabs
-                    value={this.state.tab}
-                    onChange={this.handleTabChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    centered
-                >
-                    <Tab label="Consultation" />
-                    <Tab label="History" />
-                </Tabs>
-
                 {
-                    //remember to make the Card collapsible to save space on the screen
+                    //To-Do: make the Card collapsible to save space on the screen
                 }
                 <Card>
                     <Typography type="title" component="h2">

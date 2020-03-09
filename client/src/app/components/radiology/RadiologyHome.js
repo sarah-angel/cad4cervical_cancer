@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Typography } from 'material-ui'
+import { Tabs, Tab, Typography } from 'material-ui'
 import { CardContent, CardMedia } from 'material-ui/Card'
 import uploadImg from '../../../assets/images/upload-big-arrow.png'
 import SearchPatient from '../search/SearchPatient'
 import PatientDetails from '../patient/PatientDetails'
 import { findDOMNode } from 'react-dom'
 import Assessment from './Assessment'
+import History from './History'
 
 const styles = {
     uploadCard: {
@@ -27,12 +28,17 @@ class RadiologyHome extends Component {
         super(props)
         this.state = {
             patient: null,
-            image: null
+            image: null,
+            tab: 0, //current tab (Consultation)
         }
     }
 
     getPatient = (patient) => {
         this.setState({ patient: patient })
+    }
+
+    handleTabChange = (event, newValue) => {
+        this.setState({tab: newValue})
     }
 
     //Can't make a component an input field so have to redirect the click
@@ -51,6 +57,8 @@ class RadiologyHome extends Component {
         reader.readAsDataURL(file)
     }
 
+    //To-Do: Tabs duplicated 3 times!!? Refactor
+    
     render() {
         if ( !this.state.patient )
             return (
@@ -58,14 +66,55 @@ class RadiologyHome extends Component {
                     <SearchPatient getPatient={this.getPatient} />
                 </div>
             )
+        
+        //Display history section when tab changes
+        if ( this.state.tab === 1 )
+                return (
+                    <div>
+                    <Tabs
+                        value={this.state.tab}
+                        onChange={this.handleTabChange}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        centered
+                    >
+                        <Tab label="Consultation" />
+                        <Tab label="History" />
+                    </Tabs>
+                    <History patient={this.state.patient._id} />
+                    </div>
+                )
 
-        if ( this.state.image )
+        if ( this.state.image && this.state.tab === 0 )
             return (
-                <Assessment image={this.state.image} patient={this.state.patient} />
+                <div>
+                    <Tabs
+                        value={this.state.tab}
+                        onChange={this.handleTabChange}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        centered
+                    >
+                        <Tab label="Consultation" />
+                        <Tab label="History" />
+                    </Tabs>
+                    <Assessment image={this.state.image} patient={this.state.patient} />
+                </div>
             )
 
         return (
             <div>
+                <Tabs
+                        value={this.state.tab}
+                        onChange={this.handleTabChange}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        centered
+                    >
+                        <Tab label="Consultation" />
+                        <Tab label="History" />
+                </Tabs>
+
                 <PatientDetails patient={this.state.patient} />
                 {
                     //find upload icon large like for dropbox

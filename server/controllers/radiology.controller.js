@@ -7,6 +7,9 @@
  * report to database
  */
 import fs from 'fs'
+import RadiologyTest from '../models/radiology.model'
+import dbErrorHandler from '../helpers/dbErrorHandler'
+
 
 const assessImage = (req, res) => {
     res.json({
@@ -20,4 +23,37 @@ function base64_encode(image) {
     return "data:image/jpg;base64," + bitmap
 }
 
-export default { assessImage }
+//Saves radiology assessment results in the database
+const saveReport = (req, res) => {
+    const radiologyTest = new RadiologyTest(req.body)
+    radiologyTest.save((err, result) => {
+        if (err) {
+            return res.status(400).json({
+                error: dbErrorHandler.getErrorMessage(err)
+            })
+        }
+        res.status(200).json({
+            message: "Successfully saved the report"
+        })
+    })
+}
+
+//Fetches all records in the Radiology tests database that match the patient ID
+const reportByPatientId = (req, res, next, id) => {
+    RadiologyTest.find({patient_ID: id }).exec((err, records) => {
+        if(err || !records)
+            return res.status(400).json({
+                error: "No records found."
+            })
+        req.history = records
+        next()
+    })
+}
+
+//Takes a patient ID and returns all radiology reports linked to it
+//sorts from latest to oldest
+const getHistory = (req, res) => {
+    return res.json(req.history)
+}
+
+export default { assessImage, saveReport, getHistory, reportByPatientId }

@@ -5,7 +5,6 @@ import Signup from './components/signup/Signup'
 import Menu from './Menu'
 import PrivateRoute from './PrivateRoute'
 
-import Random from './random'
 
 class MainRouter extends Component {
     render() {
@@ -16,7 +15,6 @@ class MainRouter extends Component {
                     <PrivateRoute exact path="/" />
                     <Route exact path="/signin" component={Signin} />
                     <Route exact path="/signup" component={Signup} />
-                    <PrivateRoute exact path="/random" component={Random} />
 
                 </Switch>
             </div>

@@ -37,4 +37,20 @@ const saveReport = async (report) => {
     
 }
 
-export { assessImage, saveReport }
+const getHistory = async (patientId) => {
+    return fetch( url + '/api/patient/history/' + patientId, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then((response) => {
+        return response.json()
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
+export { assessImage, saveReport, getHistory }
