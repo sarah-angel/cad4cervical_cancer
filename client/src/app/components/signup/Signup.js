@@ -3,7 +3,35 @@ import { create } from '../../auth/api-auth'
 import Typography from 'material-ui/Typography'
 import Card, { CardContent, CardActions } from 'material-ui/Card'
 import { Button, TextField, Dialog } from 'material-ui'
+import { DialogTitle, DialogActions } from 'material-ui/Dialog'
 import Icon from 'material-ui/Icon'
+import { indigo } from 'material-ui/colors'
+
+const styles = {
+    card: {
+        maxWidth: 600,
+        margin: 'auto',
+        textAlign: 'center',
+        marginTop: 10,
+        paddingBottom: 5
+    },
+    error: {
+        verticalAlign: 'middle'
+    },
+    title: {
+        marginTop: 5,
+        color: indigo[400]
+    },
+    textField: {
+        marginLeft: 2,
+        marginRight: 2,
+        width: 300
+    },
+    submit: {
+        margin: 'auto',
+        marginBottom: 5
+    }
+}
 
 class Signup extends Component{
     state = {
@@ -42,38 +70,45 @@ class Signup extends Component{
     render() {
         return (
             <div>
-                <Card>
+                <Card style={styles.card}>
                     <CardContent>
-                        <Typography type="headline" component="h2">
+                        <Typography type="headline" component="h2" style={styles.title}>
                             Sign Up
                         </Typography>
                         <TextField id="username" label="Username" onChange={this.handleChange('username')}
-                                    margin="normal"/> <br/>
+                                    margin="normal" style={styles.textField} /> <br/>
                         <TextField id="firstname" label="First Name" onChange={this.handleChange('firstname')}
-                                    margin="normal"/> <br/>
+                                    margin="normal" style={styles.textField} /> <br/>
                         <TextField id="middlename" label="Middle Name" onChange={this.handleChange('middlename')}
-                                    margin="normal"/> <br/>
+                                    margin="normal" style={styles.textField} /> <br/>
                         <TextField id="surname" label="Surname" onChange={this.handleChange('surname')}
-                                    margin="normal"/> <br/>
+                                    margin="normal" style={styles.textField} /> <br/>
                         <TextField id="department" label="Department" onChange={this.handleChange('department')}
-                                    margin="normal" value={this.state.email}/> <br/>
+                                    margin="normal" value={this.state.email} style={styles.textField} /> <br/>
                         <TextField id="password" type="password" label="Password" onChange={this.handleChange('password')}
-                                    margin="normal" value={this.state.password}/> <br/>
+                                    margin="normal" value={this.state.password} style={styles.textField} /> <br/>
                         {this.state.error && (
                             <Typography component="p" color="error">
-                                <Icon color="error">
-                                    error
-                                </Icon>
+                                <Icon color="error" style={styles.error}></Icon>
+                                {this.state.error}
                             </Typography>
                         )}
                     </CardContent>
                     <CardActions>
-                        <Button color="primary" raised="raised" onClick={this.clickSubmit}>
+                        <Button color="primary" raised="raised" 
+                                onClick={this.clickSubmit} style={styles.submit} >
                             Submit
                         </Button>
                     </CardActions>
                 </Card>
-                <Dialog open={this.state.open}> ... </Dialog>
+                <Dialog open={this.state.open}> 
+                    <DialogTitle>New Account Successfully Created</DialogTitle>
+                    <DialogActions>
+                        <Button color="primary" onClick={() => this.setState({open: false})}>
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         )
     }

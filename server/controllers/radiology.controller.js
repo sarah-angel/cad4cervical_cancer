@@ -7,11 +7,33 @@
  * report to database
  */
 import fs from 'fs'
+import { Curl } from 'node-libcurl'
 import RadiologyTest from '../models/radiology.model'
 import dbErrorHandler from '../helpers/dbErrorHandler'
 
 
 const assessImage = (req, res) => {
+    
+    // const curl = new Curl()
+    
+    // var data = { "input": [10.5]}
+    
+    // curl.setOpt('URL', 'http://localhost:1337/hello-world/predict')
+    // curl.setOpt('CUSTOMREQUEST', 'POST')
+    // curl.setOpt(Curl.option.HTTPHEADER, ['Content-Type: application/json'])
+    // curl.setOpt('POSTFIELDS', JSON.stringify(data))
+    
+    
+    // curl.on('end', (status, body) => {
+    //     console.log(body)
+    
+    //     curl.close()
+    // })
+    
+    // curl.on('error', curl.close.bind(curl))
+    
+    // curl.perform()
+        
     res.json({
         prediction: 60,
         heatmap: base64_encode( __dirname + '/random_mri_heatmap.jpg')     

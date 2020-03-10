@@ -6,6 +6,33 @@ import Typography from 'material-ui/Typography'
 import Card, { CardContent, CardActions } from 'material-ui/Card'
 import { Button, TextField } from 'material-ui'
 import Icon from 'material-ui/Icon'
+import { indigo } from 'material-ui/colors'
+
+const styles = {
+    card: {
+        maxWidth: 600,
+        margin: 'auto',
+        textAlign: 'center',
+        marginTop: 10,
+        paddingBottom: 5
+    },
+    error: {
+        verticalAlign: 'middle'
+    },
+    title: {
+        marginTop: 5,
+        color: indigo[400]
+    },
+    textField: {
+        marginLeft: 2,
+        marginRight: 2,
+        width: 300
+    },
+    submit: {
+        margin: 'auto',
+        marginBottom: 5
+    }
+}
 
 class Signin extends Component {
     state = {
@@ -47,9 +74,9 @@ class Signin extends Component {
     
         return (
             <div>
-                <Card>
+                <Card style={styles.card}>
                     <CardContent>
-                        <Typography type="headline" component="h2">
+                        <Typography type="headline" component="h2" style={styles.title}>
                             Sign In
                         </Typography>
                         <TextField id="username" type="username" label="Username" onChange={this.handleChange('username')}
@@ -58,14 +85,14 @@ class Signin extends Component {
                                     margin="normal" value={this.state.password}/> <br/>
                         {this.state.error && (
                             <Typography component="p" color="error">
-                                <Icon color="error">
-                                    error
-                                </Icon>
+                                <Icon color="error" style={styles.error}></Icon>
+                                {this.state.error}
                             </Typography>
                         )}
                     </CardContent>
                     <CardActions>
-                        <Button color="primary" raised="raised" onClick={this.clickSubmit}>
+                        <Button color="primary" raised="raised" 
+                                onClick={this.clickSubmit} style={styles.submit}>
                             Submit
                         </Button>
                     </CardActions>

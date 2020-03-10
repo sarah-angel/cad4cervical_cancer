@@ -5,6 +5,13 @@ import { ListItem, ListItemText, ListItemSecondaryAction } from 'material-ui/Lis
 import { getHistory } from '../../helpers/api-radiology'
 import Report from './Report'
 
+const styles = {
+    list: {
+        maxWidth: 800,
+        margin: 'auto'
+    }
+}
+
 class History extends Component {
     state = {
         patient: this.props.patient,
@@ -32,7 +39,7 @@ class History extends Component {
                         report={this.state.history[this.state.viewReportIndex - 1]}
                         close={() => this.setState({viewReportIndex: null})}/>
 
-                :<List>
+                :<List style={styles.list}>
                     <ListItem>
                         <ListItemText primary="Index" />
                         <ListItemText primary="Date" />
@@ -40,8 +47,8 @@ class History extends Component {
                     
                     </ListItem>
                     {this.state.history.map((item, index) => {
-                        return(<Link key={index}>
-                            <ListItem>
+                        return(
+                            <ListItem key={index}>
                                 <ListItemText primary={(index + 1).toString()} />
                                 <ListItemText primary={item.created} />
                                 <ListItemText primary={item.prediction} />
@@ -52,7 +59,6 @@ class History extends Component {
                                     </Button>
                                 </ListItemSecondaryAction>
                             </ListItem>
-                            </Link>
                         )
                     })}
                 </List>

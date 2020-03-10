@@ -4,12 +4,27 @@ import { CardContent } from 'material-ui/Card'
 
 
 const styles = {
+    card: {
+        maxWidth: 800,
+        margin: 'auto'
+    },
     column: {
         width: '30%'
     }
 }
 
+
 class PatientDetails extends Component{
+    
+    getAge = () => {
+        var today = new Date()
+        var birthdate = new Date(this.props.patient.date_of_birth)
+        var age = today.getFullYear() - birthdate.getFullYear()
+        var m = today.getMonth() - birthdate.getMonth()
+        if(m < 0 || (m === 0 && today.getDate() < birthdate.getDate()))
+            age--
+        return age
+    }
 
     render() {
         const patient = this.props.patient
@@ -19,7 +34,7 @@ class PatientDetails extends Component{
                 {
                     //To-Do: make the Card collapsible to save space on the screen
                 }
-                <Card>
+                <Card style={styles.card}>
                     <Typography type="title" component="h2">
                         Patient Details
                     </Typography>
@@ -37,7 +52,7 @@ class PatientDetails extends Component{
                         </div>
                         <div style={styles.column}>
                         <Typography component="p">
-                            Date of Birth: {patient.date_of_birth}
+                            Age: {this.getAge()}
                         </Typography>
                         <Typography component="p">
                             Gender: {patient.gender}

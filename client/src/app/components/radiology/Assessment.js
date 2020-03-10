@@ -11,9 +11,13 @@ const styles = {
         padding: 5
     },
     commentField: {
-        width: "50%",
-        marginLeft: 10
+        minWidth: '50%',
+        maxWidth: 800,
+        margin: 'auto'
         
+    },
+    controlButtons: {
+        margin: 'auto'
     }
 }
 class Assessment extends Component{
@@ -80,7 +84,7 @@ class Assessment extends Component{
                 
                 <PatientDetails patient={this.state.patient} />
                
-               <div style={{display: "flex"}}>
+               <div style={{display: "flex", margin: 'auto'}}>
                    <div>
                        <img src={this.state.image} alt="Patients MRI" style={styles.image} />      
                    </div>
@@ -89,7 +93,7 @@ class Assessment extends Component{
                    </div>
                </div>
                 
-                <div style={{display: "flex"}}>
+                <div style={{display: "flex", margin: 'auto'}}>
                     <Typography>
                         Cervical Cancer Prediction Value: {this.state.prediction}%
                     </Typography>
@@ -104,7 +108,7 @@ class Assessment extends Component{
             
                 { (this.state.error) }
                 
-                <div>
+                <div style={styles.controlButtons}>
                     <Button onClick={this.handleSave} color="primary">Save</Button>
                     <Button onClick={this.handleDiscard} color="secondary">Discard</Button>
                 </div>

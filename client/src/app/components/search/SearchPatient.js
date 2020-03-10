@@ -3,6 +3,14 @@ import  SearchBar from 'material-ui-search-bar'
 import { read } from '../../helpers/api-patient'
 import { Typography } from 'material-ui'
 
+const styles = {
+    searchBar: {
+        maxWidth: 800,
+        margin: 'auto',
+        marginTop: 100
+    }
+}
+
 class SearchPatient extends Component {
     state = {
         value: '',
@@ -31,8 +39,7 @@ class SearchPatient extends Component {
                 value={this.state.value}
                 onChange={this.handleChange}
                 onRequestSearch={this.getPatient}
-                stye={{margin: '0 auto',
-                maxWidth: 800}} />
+                style={styles.searchBar} />
 
             {this.state.error && (
                 <Typography component="p" color="error">
