@@ -9,6 +9,7 @@ import userRoutes from './routes/user.routes'
 import authRoutes from './routes/auth.routes'
 import patientRoutes from './routes/patient.routes'
 import radiologyRoutes from './routes/radiology.routes'
+import consultationRoutes from './routes/consultation.routes'
 
 const app = express()
 
@@ -44,5 +45,6 @@ app.use('/', userRoutes)
 app.use('/', authRoutes)
 app.use('/', patientRoutes)
 app.use('/', radiologyRoutes)
+app.use('/', consultationRoutes)
 
 export default app
