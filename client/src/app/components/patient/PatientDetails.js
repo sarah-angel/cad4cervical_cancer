@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Card, Typography } from 'material-ui'
+import { Card, Typography, Box } from '@material-ui/core'
 import { CardContent } from 'material-ui/Card'
 
 
 const styles = {
-    card: {
+    root: {
         maxWidth: 800,
         margin: 'auto'
     },
@@ -30,53 +30,53 @@ class PatientDetails extends Component{
         const patient = this.props.patient
 
         return (
-            <div>
+            <div style={styles.root}>
                 {
                     //To-Do: make the Card collapsible to save space on the screen
                 }
-                <Card style={styles.card}>
-                    <Typography type="title" component="h2">
+                    <Typography style={styles.title}>
                         Patient Details
                     </Typography>
+                    <Box borderBottom={1} style={styles.bottomBorder} color="text.disabled" />
+                    
                     <CardContent style={{display: "flex"}}>
                         <div style={styles.column}>
-                           <Typography component="p">
+                           <Typography >
                             First Name: {patient.firstname}
                         </Typography>
-                        <Typography component="p">
+                        <Typography >
                             Middle Name: {patient.middlename}
                         </Typography>
-                        <Typography component="p">
+                        <Typography >
                             Last Name: {patient.surname}
                         </Typography> 
                         </div>
                         <div style={styles.column}>
-                        <Typography component="p">
+                        <Typography >
                             Age: {this.getAge()}
                         </Typography>
-                        <Typography component="p">
+                        <Typography >
                             Gender: {patient.gender}
                         </Typography>
-                        <Typography component="p">
+                        <Typography >
                             Blood Type: {patient.blood_type}
                         </Typography> 
                         </div>
                         <div style={styles.column}>
-                        <Typography component="p">
+                        <Typography >
                             Occupation: {patient.occupation}
                         </Typography>
-                        <Typography component="p">
+                        <Typography >
                             Nationality: {patient.nationality}
                         </Typography>
-                        <Typography component="p">
-                            Place of Residence: {patient.residence}
+                        <Typography >
+                            Residence: {patient.residence}
                         </Typography> 
-                        <Typography component="p">
+                        <Typography >
                             Marital Status: {patient.marital_status}
                         </Typography> 
                         </div>
                     </CardContent>
-                </Card>
                 
             </div>
         )

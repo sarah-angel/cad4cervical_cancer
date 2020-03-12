@@ -16,7 +16,6 @@ import mongoose from 'mongoose'
  * family_history
  * prediction
  * comments
- * cancer_type ??? depends on the model
  */
 
 const ConsultationSchema = new mongoose.Schema({

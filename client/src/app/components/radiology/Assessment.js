@@ -66,7 +66,6 @@ class Assessment extends Component{
             else{
                 //To-Do: show success message
                 //reset state and go to home
-                console.log(data.message)
                 window.location.href="/"
             }
         })

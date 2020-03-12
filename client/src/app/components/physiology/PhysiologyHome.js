@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Tabs, Tab, Typography } from 'material-ui'
-import { CardContent, CardMedia } from 'material-ui/Card'
 import SearchPatient from '../search/SearchPatient'
 import PatientDetails from '../patient/PatientDetails'
 import Consultation from './Consultation'
