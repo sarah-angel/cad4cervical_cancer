@@ -75,24 +75,38 @@ class LabTest extends Component {
         error: '',
     }
 
-    textFieldConstraints = {
-
-    }
 
     //If labTest is in props then component is read Only
-    componentDidMount = (props) => {
+    componentDidMount = async(props) => {
         var labTest = this.props.labTest
-        if (labTest){
+        if (labTest) {
             this.setState({readOnly: true})
             this.setState({
                 hiv: (labTest.hiv === null) ? '' : `${labTest.hiv}`,
                 chest_x_ray: (labTest.chest_x_ray === null) ? '' : `${labTest.chest_x_ray}`,
                 ultrasound: (labTest.ultrasound === null) ? '' : `${labTest.ultrasound}`,
-                fbp: labTest.fbp,
-                urinalysis: labTest.urinalysis
+                fbp: {
+                    baso: labTest.fbp.baso ? labTest.fbp.baso : '',
+                    eos: labTest.fbp.eos ? labTest.fbp.eos : '',
+                    hb: labTest.fbp.hb ? labTest.fbp.hb : '',
+                    lymphocyte: labTest.fbp.lymphocyte ? labTest.fbp.lymphocyte : '',
+                    mch: labTest.fbp.mch ? labTest.fbp.mch : '',
+                    mcv: labTest.fbp.mcv ? labTest.fbp.mcv : '',
+                    neutrophil: labTest.fbp.neutrophil ? labTest.fbp.neutrophil : '',
+                    plt: labTest.fbp.plt ? labTest.fbp.plt : '',
+                    rbc: labTest.fbp.rbc ? labTest.fbp.rbc : '',
+                    wbc: labTest.fbp.wbc ? labTest.fbp.wbc : '',
+                },
+                urinalysis: {
+                    bilirubin: labTest.urinalysis.bilirubin ? labTest.urinalysis.bilirubin : '',
+                    creatinine: labTest.urinalysis.creatinine ? labTest.urinalysis.creatinine : '',
+                    epithelial: labTest.urinalysis.epithelial ? labTest.urinalysis.epithelial : '',
+                    ph: labTest.urinalysis.ph ? labTest.urinalysis.ph : '',
+                    protein: labTest.urinalysis.protein ? labTest.urinalysis.protein : '',
+                    urea: labTest.urinalysis.urea ? labTest.urinalysis.urea : '',
+                    uric_acid: labTest.urinalysis.uric_acid ? labTest.urinalysis.uric_acid : '',
+                }
             })
-
-            console.log(this.state)
         }
     }
 
@@ -125,14 +139,16 @@ class LabTest extends Component {
     //Group is used for nested objects
     handleChange = ( name, group) => event => {
         var newVal = event.target.value
-        if (group){
-            this.setState(prevState => ({ 
-                [group] : { 
-                    ...prevState[group],
-                    [name] : newVal}
-            }))
-        } else
-            this.setState({[name]: newVal})
+        if (!this.state.readOnly){
+            if (group){
+                this.setState(prevState => ({ 
+                    [group] : { 
+                        ...prevState[group],
+                        [name] : newVal}
+                }))
+            } else
+                this.setState({[name]: newVal})
+        }
     }
 
     render(){
@@ -146,58 +162,58 @@ class LabTest extends Component {
             <Typography>Full Blood Picture</Typography>
             <br/>
             <TextField id="baso" label="Basophil" onChange={this.handleChange('baso', 'fbp')}
-                    margin="normal" style={styles.textField} value={this.state.fbp.baso} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.fbp.baso} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="eos" label="Eosinophil" onChange={this.handleChange('eos', 'fbp')}
-                    margin="normal" style={styles.textField} value={this.state.fbp.eos} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.fbp.eos} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="hb" label="Haemoglobin" onChange={this.handleChange('hb', 'fbp')} 
-                    margin="normal" style={styles.textField} value={this.state.fbp.hp} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.fbp.hb} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="lymphocyte" label="Lymphocyte" onChange={this.handleChange('lymphocyte', 'fbp')}
-                    margin="normal" style={styles.textField} value={this.state.fbp.lymphocyte} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.fbp.lymphocyte} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="mch" label="MCH" onChange={this.handleChange('mch', 'fbp')}
-                    margin="normal" style={styles.textField} value={this.state.fbp.mch} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.fbp.mch} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="mcv" label="MCV" onChange={this.handleChange('mcv', 'fbp')}
-                    margin="normal" style={styles.textField} value={this.state.fbp.mcv} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.fbp.mcv} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="neutrophil" label="Neutrophil" onChange={this.handleChange('neutrophil', 'fbp')}
-                    margin="normal" style={styles.textField} value={this.state.fbp.neutrophil} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.fbp.neutrophil} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="plt" label="Platelet" onChange={this.handleChange('plt', 'fbp')}
-                    margin="normal" style={styles.textField} value={this.state.fbp.plt} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.fbp.plt} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="rbc" label="RBC" onChange={this.handleChange('rbc', 'fbp')}
-                    margin="normal" style={styles.textField} value={this.state.fbp.rbc} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.fbp.rbc} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="wbc" label="WBC" onChange={this.handleChange('wbc', 'fbp')}
-                    margin="normal" style={styles.textField} value={this.state.fbp.wbc} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.fbp.wbc} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <br/>
             <Typography>Urinalysis</Typography>
             <br/>
             <TextField id="bilirubin" label="Bilirubin" onChange={this.handleChange('bilirubin', 'urinalysis')}
-                    margin="normal" style={styles.textField} value={this.state.urinalysis.bilirubin} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.bilirubin} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="creatinine" label="Creatinine" onChange={this.handleChange('creatinine', 'urinalysis')}
-                    margin="normal" style={styles.textField} value={this.state.urinalysis.creatinine} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.creatinine} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="epithelial" label="Epithelial" onChange={this.handleChange('epithelial', 'urinalysis')}
-                    margin="normal" style={styles.textField} value={this.state.urinalysis.epithelial} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.epithelial} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="ph" label="pH" onChange={this.handleChange('ph', 'urinalysis')}
-                    margin="normal" style={styles.textField} value={this.state.urinalysis.ph} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.ph} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="protein" label="Protein" onChange={this.handleChange('protein', 'urinalysis')}
-                    margin="normal" style={styles.textField} value={this.state.urinalysis.protein} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.protein} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="urea" label="Urea" onChange={this.handleChange('urea', 'urinalysis')}
-                    margin="normal" style={styles.textField} value={this.state.urinalysis.urea} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.urea} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="uric_acid" label="Uric Acid" onChange={this.handleChange('uric_acid', 'urinalysis')}
-                    margin="normal" style={styles.textField} value={this.state.urinalysis.uric_acid} disabled={this.state.readOnly}
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.uric_acid} 
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <br/>
             <Typography>Other</Typography>

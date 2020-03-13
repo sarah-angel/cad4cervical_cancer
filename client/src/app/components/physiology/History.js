@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { Typography, List, Button } from 'material-ui'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { ListItem, ListItemText, ListItemSecondaryAction } from 'material-ui/List'
-import { getHistory } from '../../helpers/api-radiology'
-import Report from './Report'
-import Assessment from './Assessment'
+import { getHistory } from '../../helpers/api-consultation'
+import Consultation from './Consultation'
 
 const styles = {
     root: {
@@ -41,7 +40,7 @@ class History extends Component {
         return (<div style={styles.root}>
             { this.state.viewReportIndex 
             ? <div>
-                <div>
+                <div style={styles.reportHead}>
                     <Button color="primary" 
                         onClick={() => this.setState({viewReportIndex: null})}>
                         <ArrowBackIcon/>
@@ -49,7 +48,7 @@ class History extends Component {
                     </Button>
                     <span style={{float: "right"}}>{selectedReport.created}</span>
                 </div>
-                <Assessment patient={this.state.patient} report={selectedReport} />
+                <Consultation patient={this.state.patient} report={selectedReport} />
              </div>
             :<List style={styles.list}>
                 <ListItem>

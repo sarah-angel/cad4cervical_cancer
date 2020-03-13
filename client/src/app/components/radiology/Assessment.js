@@ -34,11 +34,23 @@ class Assessment extends Component{
         comments: '',
         disagree: false,
         showOriginal: true,
+        readOnly: false,
         error: '',
     }
 
     componentDidMount = () => {
         var image = {image: this.props.image}
+
+        if ( this.props.report){
+            image.image = this.props.report.image
+            this.setState({
+                readOnly: true,
+                prediction: this.props.report.prediction,
+                image: this.props.report.image,
+                comments: this.props.report.comments
+            })
+        }
+
         assessImage(image).then((data) => {
             if(data.error)
                 this.setState({error: data.error})
@@ -46,16 +58,15 @@ class Assessment extends Component{
                 this.setState({heatmap: data.heatmap})
                 this.setState({prediction: data.prediction})
             }
-
         })
     }
 
-    handleDisagree = (event) => {
-        this.setState({disagree: event.target.checked})
-    }
-
-    handleComment = (event) => {
-        this.setState({comments : event.target.value})
+    handleChange = name => event => {
+        if (!this.state.readOnly)
+            if ( name == "disagree")
+                this.setState({disagree: event.target.checked})
+            else
+                this.setState({[name]: event.target.value})
     }
 
     handleSave = (event) => {
@@ -111,21 +122,24 @@ class Assessment extends Component{
                 </Typography>
                 
                 <FormControlLabel label="Disagree?" labelPlacement="start"
-                    control={<Checkbox checked={this.state.disagree} 
-                                onChange={this.handleDisagree} value="disagre" />}
+                    control={<Checkbox checked={this.state.disagree}
+                                onChange={this.handleChange("disagree")} />}
                 />
 
                     
                  
 
-                <TextField multiline onChange={this.handleComment}
-                    label="Comments" fullWidth
+                <TextField multiline onChange={this.handleChange("comments")} value={this.state.comments}
+                    label="Comments" fullWidth 
                     margin="normal" style={styles.commentField} />
             
-                <div style={styles.controlButtons}>
-                    <Button onClick={this.handleSave} color="primary">Save</Button>
-                    <Button onClick={this.handleDiscard} color="primary">Discard</Button>
-                </div>
+                { !this.state.readOnly && (
+                    <div style={styles.controlButtons}>
+                        <Button onClick={this.handleSave} color="primary">Save</Button>
+                        <Button onClick={this.handleDiscard} color="primary">Discard</Button>
+                    </div>
+                )}
+                
 
                 { this.state.error && (
                     <Typography color="error">

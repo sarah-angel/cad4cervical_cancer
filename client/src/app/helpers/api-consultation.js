@@ -53,7 +53,7 @@ const save = (consultation) => {
 }
 
 const getHistory = (patient_ID) => {
-    return fetch( url + '/api/consultation/history' + patient_ID, {
+    return fetch( url + '/api/consultation/history/' + patient_ID, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',

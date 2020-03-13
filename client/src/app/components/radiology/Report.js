@@ -4,6 +4,10 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { assessImage } from '../../helpers/api-radiology'
 
 const styles = {
+    root: {
+        maxWidth: 800,
+        margin: '0 auto',
+    },
     image: {
         minHeight: 100,
         width: '100%',
@@ -39,7 +43,7 @@ class Report extends Component{
 
     render() {
         return(
-            <div>
+            <div style={styles.root}>
                 <div>
                     <Button color="primary" onClick={this.props.close}>
                         <ArrowBackIcon/>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextField, Typography, InputAdornment, MenuItem, Button } from 'material-ui'
+import { TextField, Typography, InputAdornment, MenuItem, Button, Checkbox, FormControlLabel } from '@material-ui/core'
 import  AddBoxIcon  from '@material-ui/icons/AddBox'
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox'
 import { getPending, getPrediction, save } from '../../helpers/api-consultation'
@@ -78,40 +78,59 @@ class Consultation extends Component {
         family_history: '',
         prediction: '',
         comments: '',
+        disagree: false,
         addSymptom: [],
         lab: false,
         open_lab: true,
+        readOnly: false,
         error: '',
     }
 
-    //Fetch the last incomplete consultation for the patient
-    //if it doesn't exist start a new consultation
-    //if exists check if corresponding lab test is available
+    /**
+     * If report is given in props then set to readOnly
+     * else
+     * Fetch the last incomplete consultation for the patient
+     * if it doesn't exist start a new consultation
+     * if exists check if corresponding lab test is available
+     */
+    
     componentDidMount = async () => {
         var patient = {
             patient_ID: this.state.patient_ID
         }
-        await getPending(patient).then( (data) => {
-            if(data.error)
-                this.setState({error: data.error})
+
+        var data = {}
+
+        if (this.props.report){
+            data = this.props.report
+            this.setState({
+                readOnly: true,
+            })
+        }else
+        await getPending(patient).then( (res) => {
+            if(res.error)
+                this.setState({error: res.error})
             else{
-                this.setState({
-                    consultation_ID: data._id,
-                    symptoms: data.symptoms,
-                    weight: !data.weight ? '' : data.weight ,
-                    height: !data.height ? '' : data.height,
-                    temperature: !data.temperature ? '' : data.temperature,
-                    smokes: (data.smokes === null || data.smokes === undefined) ? '' : `${data.smokes}`,
-                    alcohol: (data.alcohol === null || data.alcohol === undefined) ? '' : `${data.alcohol}`,
-                    region: !data.region ? '' : data.region,
-                    children: !data.children ? '' : data.children,
-                    family_history: !data.family_history ? '' : data.family_history,
-                    prediction: !data.prediction ? '' : data.prediction,
-                    comments: !data.comments ? '' : data.comments,
-                })
+                data = res
             }
         })
 
+        await this.setState({
+            consultation_ID: data._id,
+            symptoms: data.symptoms,
+            weight: !data.weight ? '' : data.weight ,
+            height: !data.height ? '' : data.height,
+            temperature: !data.temperature ? '' : data.temperature,
+            smokes: (data.smokes === null || data.smokes === undefined) ? '' : `${data.smokes}`,
+            alcohol: (data.alcohol === null || data.alcohol === undefined) ? '' : `${data.alcohol}`,
+            region: !data.region ? '' : data.region,
+            children: !data.children ? '' : data.children,
+            family_history: !data.family_history ? '' : data.family_history,
+            prediction: !data.prediction ? '' : data.prediction,
+            comments: !data.comments ? '' : data.comments,
+        })
+
+        //Get lab results 
         if (this.state.consultation_ID)
             getByConsultationID(this.state.consultation_ID).then((data) => {
                 if( !data ) return
@@ -179,7 +198,11 @@ class Consultation extends Component {
     }
 
     handleChange = name => event => {
-        this.setState({[name]: event.target.value})
+        if (!this.state.readOnly)
+            if ( name == "disagree")
+                this.setState({disagree: event.target.checked})
+            else
+                this.setState({[name]: event.target.value})
     }
     
     render() {
@@ -226,31 +249,40 @@ class Consultation extends Component {
                 return (<span key={index}>
                     <TextField id="symptoms" label="Symptoms" onChange={this.handleChange(`symptoms${index + 1}`)}
                         margin="normal" style={styles.symptomsField} />
-                    <Button onClick={this.removeSymptomField(`symptoms${index + 1}`)}><InputAdornment/></Button>
+                    <Button onClick={this.removeSymptomField(`symptoms${index + 1}`)}></Button>
                     <br/></span>
                 )
             })}
 
             { this.state.lab_test && this.state.lab && this.state.open_lab 
                 ? <LabTest labTest={this.state.lab_test}/>
-                :<Typography>Lab Results: Unavailable</Typography>
+                : <Typography>Lab Results: Unavailable</Typography>
             }
             
             <br/>
             <TextField id="prediction" label="Prediction" disabled
                     margin="normal" style={styles.textField} value={this.state.prediction}
                     InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>}}/>
-            <Button  onClick={this.getPrediction} color="primary" disabled={!this.state.lab}>
-                Get Risk Assessment
-            </Button>
+            { !this.state.prediction 
+                ? <Button  onClick={this.getPrediction} color="primary" disabled={!this.state.lab}>
+                    Get Risk Assessment
+                  </Button>
+                : <FormControlLabel label="Disagree ?" labelPlacement="start"
+                        control={<Checkbox checked={this.state.disagree}
+                            onChange={this.handleChange("disagree")} />}
+                  />
+            }
             <br/>
             <TextField id="comments" label="Comments" onChange={this.handleChange('comments')}
                     multiline margin="normal" fullWidth value={this.state.comments} />
 
-            <div style={styles.controlBtns}>
-                <Button onClick={this.save} color="primary">Save</Button>
-                <Button onClick={this.discard} color="primary">Discard</Button>
-            </div>
+            { !this.state.readOnly && (
+                <div style={styles.controlBtns}>
+                    <Button onClick={this.save} color="primary">Save</Button>
+                    <Button onClick={this.discard} color="primary">Discard</Button>
+                </div>
+            )}
+            
             
             {this.state.error && (
                 <Typography color="error">

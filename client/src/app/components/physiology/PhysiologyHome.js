@@ -3,7 +3,7 @@ import { Tabs, Tab, Typography } from 'material-ui'
 import SearchPatient from '../search/SearchPatient'
 import PatientDetails from '../patient/PatientDetails'
 import Consultation from './Consultation'
-//import History from './History'
+import History from './History'
 
 const styles = {
     
@@ -52,9 +52,7 @@ class PhysiologyHome extends Component {
         
             {this.state.tab === 1 
             ? (
-                <div>
-                    History Section              
-                </div>
+                <History patient={this.state.patient} />
             ) : (
                 <div>
 
