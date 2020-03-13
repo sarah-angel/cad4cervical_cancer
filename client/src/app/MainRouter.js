@@ -4,7 +4,7 @@ import Signin from './components/signin/Signin'
 import Signup from './components/signup/Signup'
 import Menu from './Menu'
 import PrivateRoute from './PrivateRoute'
-import LabHome from './components/physiology/LabHome'
+import LabHome from './components/lab/LabHome'
 
 
 class MainRouter extends Component {

@@ -38,6 +38,7 @@ const readByConsultationID = (req, res, next, id) => {
         })
 }
 
+//Returns lab test or empty json
 const readTest = (req, res) => {
     return res.json(req.labTest)
 }

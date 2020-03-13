@@ -2,19 +2,24 @@ import React, { Component } from 'react'
 import PatientDetails from '../patient/PatientDetails'
 import { assessImage, saveReport } from '../../helpers/api-radiology'
 import auth from '../../auth/auth-helper'
-import { Button, Typography, TextField, Checkbox } from '@material-ui/core'
+import { Button, Typography, TextField, Checkbox, FormControlLabel } from '@material-ui/core'
 
 const styles = {
+    root: {
+        maxWidth: 800,
+        margin: '0 auto',
+        alignItems: 'center',
+        justifyContent: 'center',
+        align: 'center',
+    },
     image: {
         minHeight: 100,
         width: '100%',
         padding: 5
     },
     commentField: {
-        minWidth: '50%',
-        maxWidth: 800,
-        margin: 'auto'
-        
+        marginLeft: 5,  
+        marginRight: 5,      
     },
     controlButtons: {
         margin: 'auto'
@@ -28,6 +33,7 @@ class Assessment extends Component{
         heatmap: null,
         comments: '',
         disagree: false,
+        showOriginal: true,
         error: '',
     }
 
@@ -79,39 +85,53 @@ class Assessment extends Component{
 
     render() {
         return (
-            <div>
+            <div style={styles.root}>
                 
                 <PatientDetails patient={this.state.patient} />
                
-               <div style={{display: "flex", margin: 'auto'}}>
-                   <div>
-                       <img src={this.state.image} alt="Patients MRI" style={styles.image} />      
-                   </div>
-                   <div>
-                       <img src={this.state.heatmap} alt="Heatmap of MRI" style={styles.image} />
-                   </div>
-               </div>
+                { this.state.showOriginal 
+                    ?<div>
+                       <img src={this.state.image} alt="Patients MRI" style={styles.image} />   
+                       <Button color="primary"
+                            onClick={() => this.setState({showOriginal: false})} >
+                           View Texture Heatmap
+                        </Button>   
+                     </div>
+                    :<div>
+                        <img src={this.state.heatmap} alt="Heatmap of MRI" style={styles.image} />
+                        <Button color="primary"
+                            onClick={() => this.setState({showOriginal: true})}>
+                            View Original
+                        </Button>
+                     </div>
+                }
+                                   
+                <Typography>
+                    Predicted Risk : {this.state.prediction}%
+                </Typography>
                 
-                <div style={{display: "flex", margin: 'auto'}}>
-                    <Typography>
-                        Cervical Cancer Prediction Value: {this.state.prediction}%
-                    </Typography>
-                    <Typography style={{marginLeft: 15}}>Disagree ?</Typography>
-                    <Checkbox checked={this.state.disagree} onChange={this.handleDisagree} value="disagree" />
+                <FormControlLabel label="Disagree?" labelPlacement="start"
+                    control={<Checkbox checked={this.state.disagree} 
+                                onChange={this.handleDisagree} value="disagre" />}
+                />
+
+                    
                  
-                </div>
 
                 <TextField multiline onChange={this.handleComment}
-                    rows="4" variant="outlined" label="Comments" 
+                    label="Comments" fullWidth
                     margin="normal" style={styles.commentField} />
             
-                { (this.state.error) }
-                
                 <div style={styles.controlButtons}>
                     <Button onClick={this.handleSave} color="primary">Save</Button>
-                    <Button onClick={this.handleDiscard} color="secondary">Discard</Button>
+                    <Button onClick={this.handleDiscard} color="primary">Discard</Button>
                 </div>
-                
+
+                { this.state.error && (
+                    <Typography color="error">
+                        {this.state.error}
+                    </Typography>
+                ) }
             </div>
 
             

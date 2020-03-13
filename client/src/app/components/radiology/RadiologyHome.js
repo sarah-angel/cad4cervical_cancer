@@ -117,7 +117,6 @@ class RadiologyHome extends Component {
 
                 <PatientDetails patient={this.state.patient} />
                 {
-                    //find upload icon large like for dropbox
                     //show loading animation when waiting for response
                 }
                 

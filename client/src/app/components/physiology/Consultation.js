@@ -4,7 +4,8 @@ import  AddBoxIcon  from '@material-ui/icons/AddBox'
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox'
 import { getPending, getPrediction, save } from '../../helpers/api-consultation'
 import { getByConsultationID } from '../../helpers/api-lab'
-import LabTest from './LabTest'
+import auth from '../../auth/auth-helper'
+import LabTest from '../lab/LabTest'
 
 /**Consultation Schema
  * patient_ID
@@ -113,6 +114,8 @@ class Consultation extends Component {
 
         if (this.state.consultation_ID)
             getByConsultationID(this.state.consultation_ID).then((data) => {
+                if( !data ) return
+
                 if(data.error)
                     this.setState({error: data.error})
                 else{
@@ -148,6 +151,7 @@ class Consultation extends Component {
         var info = {
             consultation_ID: this.state.consultation_ID,
             patient_ID: this.state.patient_ID,
+            staff_ID: auth.isAuthenticated().user._id,
             symptoms: this.state.symptoms,
             weight: this.state.weight,
             height: this.state.height,
@@ -227,10 +231,10 @@ class Consultation extends Component {
                 )
             })}
 
-            Lab Results: Pending/View
-            { this.state.lab_test && this.state.lab && this.state.open_lab && (
-                <LabTest labTest={this.state.lab_test}/>
-            )}
+            { this.state.lab_test && this.state.lab && this.state.open_lab 
+                ? <LabTest labTest={this.state.lab_test}/>
+                :<Typography>Lab Results: Unavailable</Typography>
+            }
             
             <br/>
             <TextField id="prediction" label="Prediction" disabled
@@ -241,7 +245,7 @@ class Consultation extends Component {
             </Button>
             <br/>
             <TextField id="comments" label="Comments" onChange={this.handleChange('comments')}
-                    margin="normal" fullWidth value={this.state.comments} />
+                    multiline margin="normal" fullWidth value={this.state.comments} />
 
             <div style={styles.controlBtns}>
                 <Button onClick={this.save} color="primary">Save</Button>

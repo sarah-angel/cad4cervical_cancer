@@ -35,7 +35,7 @@ const LabTestSchema = new mongoose.Schema({
     },
     consultation_ID: {
         type: String,
-        unique: true,
+        unique: [true, 'No consultation available'],
         required: [true, 'Consultation ID is required']
     },
     created: {

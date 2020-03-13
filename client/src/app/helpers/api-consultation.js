@@ -52,4 +52,20 @@ const save = (consultation) => {
     })
 }
 
-export { getPending, getPrediction, save }
+const getHistory = (patient_ID) => {
+    return fetch( url + '/api/consultation/history' + patient_ID, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+    .then((response) => {
+        return response.json()
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
+export { getPending, getPrediction, save, getHistory }
