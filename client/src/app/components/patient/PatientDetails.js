@@ -34,7 +34,7 @@ class PatientDetails extends Component{
                 {
                     //To-Do: make the Card collapsible to save space on the screen
                 }
-                    <Typography style={styles.title}>
+                    <Typography style={styles.title} >
                         Patient Details
                     </Typography>
                     <Box borderBottom={1} style={styles.bottomBorder} color="text.disabled" />

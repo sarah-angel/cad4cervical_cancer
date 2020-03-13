@@ -7,8 +7,11 @@ const router = express.Router()
 router.route('/api/consultation/save')
     .post(consultationCtrl.saveConsultation)
 
-router.route('/api/consultation/getPending')
+router.route('/api/consultation/pending')
     .post(consultationCtrl.getPendingConsultation)
+
+router.route('/api/consultation/predict')
+    .post(consultationCtrl.getPrediction)
    
 router.route('/api/consultation/history/:patientID')
     .get(consultationCtrl.getHistory)

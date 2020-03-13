@@ -2,33 +2,6 @@ import React, { Component } from 'react'
 import { TextField, InputAdornment, MenuItem, Box, Typography, Button } from '@material-ui/core'
 import { save } from '../../helpers/api-lab'
 
-/**Lab Test Schema
- * consultation_ID - FK
- * created
- * hiv (true/false)
- * chest-x-ray (true/false)
- * ultrasound (true/false)
- * fbp: 
- *      baso
- *      eos
- *      hb
- *      lymphocyte
- *      mch
- *      mcv
- *      neutrophil
- *      plt
- *      rbc
- *      wbc
- * urinalysis:
- *      bilirubin
- *      creatinine
- *      epithelial
- *      ph
- *      protein
- *      urea
- *      uric-acid
- *
- */
 const styles = {
     root: {
         maxWidth: 800,
@@ -78,27 +51,49 @@ class LabTest extends Component {
         chest_x_ray: '',
         ultrasound: '',
         fbp: {
-            baso: null,
-            eos: null,
-            hp: null,
-            lymphocyte: null,
-            mch: null,
-            mcv: null,
-            neutrophil: null,
-            plt: null,
-            rbc: null,
-            wbc: null,
+            baso: '',
+            eos: '',
+            hb: '',
+            lymphocyte: '',
+            mch: '',
+            mcv: '',
+            neutrophil: '',
+            plt: '',
+            rbc: '',
+            wbc: '',
         },
         urinalysis: {
-            bilirubin: null,
-            creatinine: null,
-            epithelial: null,
-            ph: null,
-            protein: null,
-            urea: null,
-            uric_acid: null,
+            bilirubin: '',
+            creatinine: '',
+            epithelial: '',
+            ph: '',
+            protein: '',
+            urea: '',
+            uric_acid: '',
         },
+        readOnly: false,
         error: '',
+    }
+
+    textFieldConstraints = {
+
+    }
+
+    //If labTest is in props then component is read Only
+    componentDidMount = (props) => {
+        var labTest = this.props.labTest
+        if (labTest){
+            this.setState({readOnly: true})
+            this.setState({
+                hiv: (labTest.hiv === null) ? '' : `${labTest.hiv}`,
+                chest_x_ray: (labTest.chest_x_ray === null) ? '' : `${labTest.chest_x_ray}`,
+                ultrasound: (labTest.ultrasound === null) ? '' : `${labTest.ultrasound}`,
+                fbp: labTest.fbp,
+                urinalysis: labTest.urinalysis
+            })
+
+            console.log(this.state)
+        }
     }
 
     saveTest = () => {
@@ -116,9 +111,15 @@ class LabTest extends Component {
             else{
                 //To-Do: show success message
                 //reset state and go to lab home
-                window.location.href="/"
+                window.location.href="/lab"
             }
         })
+    }
+
+    //To-Do: Ask user for confirmation 
+    //reset state and go to lab home
+    discard = (event) => {
+        window.location.href="/lab"
     }
 
     //Group is used for nested objects
@@ -136,68 +137,70 @@ class LabTest extends Component {
 
     render(){
         return (<div style={styles.root}>
-            <Typography style={styles.title} variant="h6">Test Results</Typography>
+            <Typography style={styles.title} >
+                Test Results
+            </Typography>
             <Box borderBottom={1} style={styles.bottomBorder} color="text.disabled" />
 
             <br/>        
             <Typography>Full Blood Picture</Typography>
             <br/>
             <TextField id="baso" label="Basophil" onChange={this.handleChange('baso', 'fbp')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.fbp.baso} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="eos" label="Eosinophil" onChange={this.handleChange('eos', 'fbp')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.fbp.eos} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="hp" label="HP" onChange={this.handleChange('hp', 'fbp')}
-                    margin="normal" style={styles.textField} 
+            <TextField id="hb" label="Haemoglobin" onChange={this.handleChange('hb', 'fbp')} 
+                    margin="normal" style={styles.textField} value={this.state.fbp.hp} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="lymphocyte" label="Lymphocyte" onChange={this.handleChange('lymphocyte', 'fbp')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.fbp.lymphocyte} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="mch" label="MCH" onChange={this.handleChange('mch', 'fbp')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.fbp.mch} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="mcv" label="MCV" onChange={this.handleChange('mcv', 'fbp')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.fbp.mcv} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="neutrophil" label="Neutrophil" onChange={this.handleChange('neutrophil', 'fbp')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.fbp.neutrophil} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="plt" label="Platelet" onChange={this.handleChange('plt', 'fbp')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.fbp.plt} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="rbc" label="RBC" onChange={this.handleChange('rbc', 'fbp')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.fbp.rbc} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="wbc" label="WBC" onChange={this.handleChange('wbc', 'fbp')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.fbp.wbc} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <br/>
             <Typography>Urinalysis</Typography>
             <br/>
             <TextField id="bilirubin" label="Bilirubin" onChange={this.handleChange('bilirubin', 'urinalysis')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.bilirubin} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="creatinine" label="Creatinine" onChange={this.handleChange('creatinine', 'urinalysis')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.creatinine} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="epithelial" label="Epithelial" onChange={this.handleChange('epithelial', 'urinalysis')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.epithelial} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="ph" label="pH" onChange={this.handleChange('ph', 'urinalysis')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.ph} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="protein" label="Protein" onChange={this.handleChange('protein', 'urinalysis')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.protein} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="urea" label="Urea" onChange={this.handleChange('urea', 'urinalysis')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.urea} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="uric_acid" label="Uric Acid" onChange={this.handleChange('uric_acid', 'urinalysis')}
-                    margin="normal" style={styles.textField} 
+                    margin="normal" style={styles.textField} value={this.state.urinalysis.uric_acid} disabled={this.state.readOnly}
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <br/>
-            Other
+            <Typography>Other</Typography>
             <br/>
             <TextField id="hiv" label="HIV" onChange={this.handleChange('hiv')}
                     margin="normal" style={styles.textField, styles.selectField}
@@ -227,11 +230,19 @@ class LabTest extends Component {
                 ))}    
             </TextField>
             <br/>
-
-            <div style={styles.controlBtns}>
-                <Button color="primary" onClick={this.saveTest}>Save</Button>
-                <Button color="primary">Discard</Button>
-            </div>
+            
+            { !this.state.readOnly && (
+                <div style={styles.controlBtns}>
+                    <Button color="primary" onClick={this.saveTest}>Save</Button>
+                    <Button color="primary" onClick={this.discard}>Discard</Button>
+                </div>
+            )}
+            
+            { this.state.error && (
+                <Typography color="error">
+                    {this.state.error}
+                </Typography>
+            )}
         </div>)
     }
 }
