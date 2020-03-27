@@ -1,7 +1,7 @@
 const url = "http://localhost:5000"
 
 const assessImage = async (image) => {
-    return fetch( url + '/api/patient/assessImage', {
+    return fetch('/api/patient/assessImage', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -20,7 +20,7 @@ const assessImage = async (image) => {
 }
 
 const saveReport = async (report) => {
-    return fetch( url + '/api/patient/saveReport', {
+    return fetch('/api/patient/saveReport', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -38,7 +38,7 @@ const saveReport = async (report) => {
 }
 
 const getHistory = async (patientId) => {
-    return fetch( url + '/api/patient/history/' + patientId, {
+    return fetch('/api/patient/history/' + patientId, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',

@@ -1,9 +1,8 @@
-const url = "http://localhost:5000"
 
 //verifies a user who signs in
 //server returns a JWT if succesful
 const signin = (user) => {
-    return fetch(url + '/auth/signin/', {
+    return fetch('/auth/signin/', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -21,7 +20,7 @@ const signin = (user) => {
 //takes user data from view component and makes request to create new user
 //returns response to the component as a promise
 const create = (user) => {
-    return fetch(url + '/api/users', {
+    return fetch('/api/users', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

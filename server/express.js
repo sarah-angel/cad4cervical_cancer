@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import compress from 'compression'
 import cors from 'cors'
 import helmet from 'helmet'
+import path from 'path'
 
 import userRoutes from './routes/user.routes'
 import authRoutes from './routes/auth.routes'
@@ -41,10 +42,24 @@ app.use((err, req, res, next) => {
 
 app.use(express.static(__dirname + 'public'))
 
+// //production mode
+// if(process.env.NODE_ENV === 'production'){
+//     app.use(express.static(path.join(__dirname, '../../client/build')))
+//     app.get('/', (req, res) => {
+//         res.sendFile(path.join(__dirname, '../../client/build/index.html'))
+//     })
+// }
+
+app.use(express.static(path.join(__dirname, '../../client/build')))
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../client/build/index.html'))
+})
+
 app.use('/', userRoutes)
 app.use('/', authRoutes)
 app.use('/', patientRoutes)
 app.use('/', radiologyRoutes)
 app.use('/', consultationRoutes)
+
 
 export default app

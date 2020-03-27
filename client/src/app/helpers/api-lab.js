@@ -1,7 +1,7 @@
 const url = "http://localhost:5000"
 
 const save = async (report) => {
-    return fetch( url + '/api/lab/save', {
+    return fetch('/api/lab/save', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -19,7 +19,7 @@ const save = async (report) => {
 }
 
 const getByConsultationID = async (consultation_ID) => {
-    return fetch( url + '/api/lab/getLabTest/' + consultation_ID, {
+    return fetch('/api/lab/getLabTest/' + consultation_ID, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',

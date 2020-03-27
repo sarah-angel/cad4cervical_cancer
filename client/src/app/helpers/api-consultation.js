@@ -1,7 +1,7 @@
 const url = "http://localhost:5000"
 
 const getPending = async (patient) => {
-    return fetch( url + '/api/consultation/pending', {
+    return fetch('/api/consultation/pending', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -19,7 +19,7 @@ const getPending = async (patient) => {
 }
 
 const getPrediction = (consultation) => {
-    return fetch( url + '/api/consultation/predict', {
+    return fetch('/api/consultation/predict', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -36,7 +36,7 @@ const getPrediction = (consultation) => {
 }
 
 const save = (consultation) => {
-    return fetch( url + '/api/consultation/save', {
+    return fetch('/api/consultation/save', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -53,7 +53,7 @@ const save = (consultation) => {
 }
 
 const getHistory = (patient_ID) => {
-    return fetch( url + '/api/consultation/history/' + patient_ID, {
+    return fetch('/api/consultation/history/' + patient_ID, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
