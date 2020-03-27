@@ -14,26 +14,26 @@ import dbErrorHandler from '../helpers/dbErrorHandler'
 
 const assessImage = (req, res) => {
     
-    // const curl = new Curl()
+    const curl = new Curl()
     
-    // var data = { "input": [10.5]}
+    var data = { "input": req.body.image }
     
-    // curl.setOpt('URL', 'http://localhost:1337/hello-world/predict')
-    // curl.setOpt('CUSTOMREQUEST', 'POST')
-    // curl.setOpt(Curl.option.HTTPHEADER, ['Content-Type: application/json'])
-    // curl.setOpt('POSTFIELDS', JSON.stringify(data))
+    curl.setOpt('URL', 'http://localhost:1337/test1/predict')
+    curl.setOpt('CUSTOMREQUEST', 'POST')
+    curl.setOpt(Curl.option.HTTPHEADER, ['Content-Type: application/json'])
+    curl.setOpt('POSTFIELDS', JSON.stringify(data))
     
     
-    // curl.on('end', (status, body) => {
-    //     console.log(body)
+    curl.on('end', (status, body) => {
+        console.log(body)
     
-    //     curl.close()
-    // })
+        curl.close()
+    })
     
-    // curl.on('error', curl.close.bind(curl))
+    curl.on('error', curl.close.bind(curl))
     
-    // curl.perform()
-        
+    curl.perform()
+
     res.json({
         prediction: 60,
         heatmap: base64_encode( __dirname + '/random_mri_heatmap.jpg')     
