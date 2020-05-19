@@ -1,15 +1,23 @@
 import React, { Component } from 'react'
+import { Tabs, Tab, Typography } from 'material-ui'
 import  SearchBar from 'material-ui-search-bar'
+import { withStyles } from '@material-ui/core/styles'
+import SearchIcon  from '@material-ui/icons/Search'
+
 import { read } from '../../helpers/api-patient'
-import { Typography } from 'material-ui'
 
 const styles = {
     searchBar: {
         maxWidth: 800,
         margin: 'auto',
-        marginTop: 100
+        marginTop: 100,
+        borderRadius: 18,
+    },
+    headers: {
+        margin: 'auto'
     }
 }
+
 
 class SearchPatient extends Component {
     state = {
@@ -18,6 +26,9 @@ class SearchPatient extends Component {
     }
 
     getPatient = () => {
+        if ( !this.state.value )
+            return
+
         read({
             patientId: this.state.value
         }).then((data) => {
@@ -34,18 +45,29 @@ class SearchPatient extends Component {
 
     render() {
         return (
-            <div>
-            <SearchBar 
-                value={this.state.value}
-                onChange={this.handleChange}
-                onRequestSearch={this.getPatient}
-                style={styles.searchBar} />
+            <div style={{padding: 20}}>
+                <div style={styles.headers}>
+                    <Typography style={{textAlign: 'center'}}
+                        color="primary" component="h1"
+                    >
+                        Cervical Cancer Diagnosis 
+                    </Typography>
+                </div>
 
-            {this.state.error && (
-                <Typography component="p" color="error">
-                    {this.state.error}
-                </Typography>
-            )}
+                <SearchBar  
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    onRequestSearch={this.getPatient}
+                    style={styles.searchBar} 
+                    searchIcon={<SearchIcon  style={{color: 'black'}} />}
+                    onCancelSearch={() => this.setState({value: ''})}
+                />
+
+                {this.state.error && (
+                    <Typography component="p" color="error">
+                        {this.state.error}
+                    </Typography>
+                )}
 
             </div>
 
@@ -53,4 +75,4 @@ class SearchPatient extends Component {
     }
 }
 
-export default SearchPatient
+export default withStyles(styles)(SearchPatient)

@@ -17,20 +17,23 @@ const isActive = (history, path) => {
 }
 
 const Menu = withRouter(({history}) => (
-    <div>
+    <div style={{flexGrow: 1}}>
         <AppBar position="static">
-            <Toolbar>
-                <Typography type="title" color="inherit">
+            <Toolbar >
+                <Button type="title" 
+                    color="inherit"
+                >
                     CAD4CC
-                </Typography>
-                <Link to="/">
+                </Button>
+
+                {/* <Link to="/" style={{flexGrow: 1}}>
                     <IconButton aria-label="Home" style={isActive(history, "/")}>
                         <HomeIcon/>
                     </IconButton>
-                </Link>
+                </Link> */}
 
-                <div style={{float: "right"}} >
-                {!auth.isAuthenticated() && (
+                <div style={{flexGrow: 1}}>
+                {/* {!auth.isAuthenticated() && (
                     <span>
                         <Link to="/signin">
                             <Button style={isActive(history, "/signin")}>
@@ -38,17 +41,16 @@ const Menu = withRouter(({history}) => (
                             </Button>
                         </Link>
                     </span>
-                )}
-
-                {auth.isAuthenticated() && (
-                    <span style={{float: "right"}}>
-                        <Button color="inherit" 
-                            onClick={() => { auth.signout(() => history.push('/'))}}>
-                                Sign Out
-                        </Button>
-                    </span>
-                )}
+                )} */}
                 </div>
+                
+                {auth.isAuthenticated() && (
+                    <Button color="inherit" 
+                        onClick={() => { auth.signout(() => history.push('/'))}}>
+                            Sign Out
+                    </Button>
+                )}
+                
             </Toolbar>
         </AppBar>
     </div>

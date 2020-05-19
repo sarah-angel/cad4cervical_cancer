@@ -10,7 +10,7 @@
  * blood_type
  * occupation
  * nationality
- * residence
+ * residence //should be region
  * maritial_status
  */
 
@@ -53,7 +53,7 @@ const PatientSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    residence: {
+    residence: { //should be region
         type: String,
         trim: true
     },

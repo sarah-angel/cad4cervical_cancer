@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
  * patient_ID
  * staff_ID
  * created
- * symptoms []
+ * symptoms [] ?each be their own field
  * weight
  * height
  * temperature
@@ -14,6 +14,8 @@ import mongoose from 'mongoose'
  * region
  * children
  * family_history
+ * symptom_duration ?
+ * existing_conditions[] ?
  * prediction
  * comments
  */
@@ -54,7 +56,7 @@ const ConsultationSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    children: {
+    children: { //should be Number, capped at 7 in model
         type: String
     },
     family_history: {
