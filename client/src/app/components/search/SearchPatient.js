@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Tabs, Tab, Typography } from 'material-ui'
+import { Tabs, Tab, Typography } from '@material-ui/core'
 import  SearchBar from 'material-ui-search-bar'
 import { withStyles } from '@material-ui/core/styles'
 import SearchIcon  from '@material-ui/icons/Search'
@@ -8,16 +8,16 @@ import { read } from '../../helpers/api-patient'
 
 const styles = {
     searchBar: {
-        maxWidth: 800,
+        maxWidth: 700,
         margin: 'auto',
-        marginTop: 100,
+        marginTop: 20,
         borderRadius: 18,
     },
     headers: {
-        margin: 'auto'
+        margin: 'auto',
+        marginTop: 100,
     }
 }
-
 
 class SearchPatient extends Component {
     state = {
@@ -47,8 +47,8 @@ class SearchPatient extends Component {
         return (
             <div style={{padding: 20}}>
                 <div style={styles.headers}>
-                    <Typography style={{textAlign: 'center'}}
-                        color="primary" component="h1"
+                    <Typography style={{textAlign: 'center', fontWeight: 'bold'}}
+                        color="primary" variant="h4"
                     >
                         Cervical Cancer Diagnosis 
                     </Typography>
@@ -56,6 +56,7 @@ class SearchPatient extends Component {
 
                 <SearchBar  
                     value={this.state.value}
+                    placeholder="Search for patient by ID"
                     onChange={this.handleChange}
                     onRequestSearch={this.getPatient}
                     style={styles.searchBar} 

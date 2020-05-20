@@ -1,35 +1,35 @@
 import React, { Component } from 'react'
 import { create } from '../../auth/api-auth'
-import Typography from 'material-ui/Typography'
 import Card, { CardContent, CardActions } from 'material-ui/Card'
-import { Button, TextField, Dialog } from 'material-ui'
+import { Button, TextField, Dialog, Typography } from '@material-ui/core'
 import { DialogTitle, DialogActions } from 'material-ui/Dialog'
 import Icon from 'material-ui/Icon'
-import { indigo } from 'material-ui/colors'
 
 const styles = {
     card: {
-        maxWidth: 600,
+        maxWidth: 400,
         margin: 'auto',
         textAlign: 'center',
         marginTop: 10,
-        paddingBottom: 5
+        padding: 20,
+        borderRadius: 5,
     },
     error: {
         verticalAlign: 'middle'
     },
     title: {
-        marginTop: 5,
-        color: indigo[400]
+        fontSize: 18,
+        fontWeight: 'bold'
     },
     textField: {
-        marginLeft: 2,
-        marginRight: 2,
-        width: 300
+        width: '100%',
+        marginBottom: 0,
     },
     submit: {
         margin: 'auto',
-        marginBottom: 5
+        marginLeft: 10,
+        marginRight: 10,
+        width: '100%',
     }
 }
 
@@ -72,20 +72,27 @@ class Signup extends Component{
             <div>
                 <Card style={styles.card}>
                     <CardContent>
-                        <Typography type="headline" component="h2" style={styles.title}>
-                            Sign Up
+                        <Typography color="primary" component="h2" style={styles.title}>
+                            Create Account
                         </Typography>
-                        <TextField id="username" label="Username" onChange={this.handleChange('username')}
+
+                        <TextField id="username" label="Username" variant="outlined"
+                                    onChange={this.handleChange('username')}
                                     margin="normal" style={styles.textField} /> <br/>
-                        <TextField id="firstname" label="First Name" onChange={this.handleChange('firstname')}
+                        <TextField id="firstname" label="First Name" variant="outlined"
+                                    onChange={this.handleChange('firstname')}
                                     margin="normal" style={styles.textField} /> <br/>
-                        <TextField id="middlename" label="Middle Name" onChange={this.handleChange('middlename')}
+                        <TextField id="middlename" label="Middle Name" variant="outlined"
+                                    onChange={this.handleChange('middlename')}
                                     margin="normal" style={styles.textField} /> <br/>
-                        <TextField id="surname" label="Surname" onChange={this.handleChange('surname')}
+                        <TextField id="surname" label="Surname" variant="outlined"
+                                    onChange={this.handleChange('surname')}
                                     margin="normal" style={styles.textField} /> <br/>
-                        <TextField id="department" label="Department" onChange={this.handleChange('department')}
+                        <TextField id="department" label="Department" variant="outlined"
+                                    onChange={this.handleChange('department')}
                                     margin="normal" value={this.state.email} style={styles.textField} /> <br/>
-                        <TextField id="password" type="password" label="Password" onChange={this.handleChange('password')}
+                        <TextField id="password" type="password" label="Password" variant="outlined"
+                                    onChange={this.handleChange('password')}
                                     margin="normal" value={this.state.password} style={styles.textField} /> <br/>
                         {this.state.error && (
                             <Typography component="p" color="error">
@@ -95,16 +102,20 @@ class Signup extends Component{
                         )}
                     </CardContent>
                     <CardActions>
-                        <Button color="primary" raised="raised" 
+                        <Button color="primary" variant="contained"
                                 onClick={this.clickSubmit} style={styles.submit} >
-                            Submit
+                            Sign Up
                         </Button>
                     </CardActions>
                 </Card>
+
                 <Dialog open={this.state.open}> 
-                    <DialogTitle>New Account Successfully Created</DialogTitle>
-                    <DialogActions>
-                        <Button color="primary" onClick={() => this.setState({open: false})}>
+                    <DialogTitle>
+                        New Account Successfully Created
+                    </DialogTitle>
+                    <DialogActions style={{alignContent: 'center'}}>
+                        <Button color="primary" style={{alignSelf: 'center'}}
+                            onClick={() => this.setState({open: false})}>
                             OK
                         </Button>
                     </DialogActions>

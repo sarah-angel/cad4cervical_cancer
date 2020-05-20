@@ -1,36 +1,34 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
+import Card, { CardContent, CardActions } from 'material-ui/Card'
+import { Button, TextField, Typography } from '@material-ui/core'
+import Icon from 'material-ui/Icon'
+
 import { signin } from '../../auth/api-auth'
 import auth from '../../auth/auth-helper'
-import { Redirect } from 'react-router-dom'
-import Typography from 'material-ui/Typography'
-import Card, { CardContent, CardActions } from 'material-ui/Card'
-import { Button, TextField } from 'material-ui'
-import Icon from 'material-ui/Icon'
-import { indigo } from 'material-ui/colors'
 
 const styles = {
     card: {
-        maxWidth: 600,
+        maxWidth: 400,
         margin: 'auto',
         textAlign: 'center',
-        marginTop: 10,
-        paddingBottom: 5
+        marginTop: 100,
+        padding: 20,
+        borderRadius: 5,
     },
     error: {
         verticalAlign: 'middle'
     },
     title: {
-        marginTop: 5,
-        color: indigo[400]
     },
     textField: {
-        marginLeft: 2,
-        marginRight: 2,
-        width: 300
+        width: '100%'
     },
     submit: {
         margin: 'auto',
-        marginBottom: 5
+        marginLeft: 10,
+        marginRight: 10,
+        width: '100%',
     }
 }
 
@@ -76,12 +74,18 @@ class Signin extends Component {
             <div>
                 <Card style={styles.card}>
                     <CardContent>
-                        <Typography type="headline" component="h2" style={styles.title}>
+                        {/* <Typography type="headline" component="h2" 
+                            color="primary" style={styles.title}
+                        >
                             Sign In
-                        </Typography>
-                        <TextField id="username" type="username" label="Username" onChange={this.handleChange('username')}
-                                    margin="normal" value={this.state.email}/> <br/>
-                        <TextField id="password" type="password" label="Password" onChange={this.handleChange('password')}
+                        </Typography> */}
+                        <TextField id="username" type="username" variant="outlined"
+                                    style={styles.textField}
+                                    label="Username" onChange={this.handleChange('username')}
+                                    margin="normal" value={this.state.username}/> <br/>
+                        <TextField id="password" type="password" variant="outlined"
+                                    style={styles.textField}
+                                    label="Password" onChange={this.handleChange('password')}
                                     margin="normal" value={this.state.password}/> <br/>
                         {this.state.error && (
                             <Typography component="p" color="error">
@@ -91,9 +95,10 @@ class Signin extends Component {
                         )}
                     </CardContent>
                     <CardActions>
-                        <Button color="primary" raised="raised" 
+                        <Button color="primary" 
+                                variant="contained"
                                 onClick={this.clickSubmit} style={styles.submit}>
-                            Submit
+                            Sign In
                         </Button>
                     </CardActions>
                 </Card>

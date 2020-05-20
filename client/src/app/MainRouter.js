@@ -4,8 +4,6 @@ import Signin from './components/signin/Signin'
 import Signup from './components/signup/Signup'
 import Menu from './Menu'
 import PrivateRoute from './PrivateRoute'
-import LabHome from './components/lab/LabHome'
-
 
 class MainRouter extends Component {
     render() {
@@ -16,8 +14,6 @@ class MainRouter extends Component {
                     <PrivateRoute exact path="/" />
                     <Route exact path="/signin" component={Signin} />
                     <Route exact path="/signup" component={Signup} />
-                    <Route exact path="/lab" component={LabHome} />
-
                 </Switch>
             </div>
         )

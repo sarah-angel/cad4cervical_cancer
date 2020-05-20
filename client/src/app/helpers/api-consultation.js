@@ -1,4 +1,3 @@
-const url = "http://localhost:5000"
 
 const getPending = async (patient) => {
     return fetch('/api/consultation/pending', {

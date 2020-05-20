@@ -1,4 +1,3 @@
-const url = "http://localhost:5000"
 
 //Retrieve specific patient by ID
 const read = (params) => {

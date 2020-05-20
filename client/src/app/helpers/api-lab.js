@@ -1,4 +1,3 @@
-const url = "http://localhost:5000"
 
 const save = async (report) => {
     return fetch('/api/lab/save', {

@@ -1,4 +1,3 @@
-const url = "http://localhost:5000"
 
 const assessImage = async (image) => {
     return fetch('/api/patient/assessImage', {

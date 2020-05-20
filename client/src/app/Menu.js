@@ -2,10 +2,8 @@ import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
-import Typography from 'material-ui/Typography'
-import IconButton from 'material-ui/IconButton'
-import HomeIcon from 'material-ui-icons/Home'
 import Button from 'material-ui/Button'
+
 import auth from './auth/auth-helper'
 
 //highlights link that matches current location path
@@ -22,6 +20,7 @@ const Menu = withRouter(({history}) => (
             <Toolbar >
                 <Button type="title" 
                     color="inherit"
+                    onClick={() => history.push('/')}
                 >
                     CAD4CC
                 </Button>
