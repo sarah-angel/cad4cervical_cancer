@@ -39,28 +39,15 @@ class PhysiologyHome extends Component {
         
         return (
             <div>
-            <Tabs
-                value={this.state.tab}
-                onChange={this.handleTabChange}
-                indicatorColor="primary"
-                textColor="primary"
-                centered
-            >              
-                <Tab label="Consultation" />
-                <Tab label="History" />
-            </Tabs>
-        
-            {this.state.tab === 1 
-            ? (
-                <History patient={this.state.patient} />
-            ) : (
-                <div>
-
-                    <PatientDetails patient={this.state.patient} />
-                    <Consultation patient={this.state.patient} />
-                </div>
-            ) } 
- 
+                <div style={{display: 'flex', flexWrap: 'wrap'}}>
+                    <div style={{}} > 
+                        <PatientDetails patient={this.state.patient} />
+                        <History patient={this.state.patient} />
+                    </div>
+                    <div style={{}} > 
+                        <Consultation patient={this.state.patient} />
+                    </div>
+                </div>  
             </div>
         )
     }

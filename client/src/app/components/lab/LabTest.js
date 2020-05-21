@@ -197,18 +197,15 @@ class LabTest extends Component {
             {this.state.tab === 0
             ? (
             <div>
-            <div style={{display: 'flex'}}>
             <TextField id="baso" label="Basophil" variant="outlined"
                     onChange={this.handleChange('baso', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.baso} 
-                    // helperText="Normal Range (0.5 - 13)"
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <Typography style={{color: 'grey', fontSize: 15, marginTop: 30}}> Normal Range (0.0 - 13.0)</Typography>
-            </div>
             <TextField id="eos" label="Eosinophil" variant="outlined"
                     onChange={this.handleChange('eos', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.eos} 
-                    // helperText="Normal Range (0.5 - 13)"
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
             <TextField id="hb" label="Haemoglobin" variant="outlined"
                     onChange={this.handleChange('hb', 'fbp')} 

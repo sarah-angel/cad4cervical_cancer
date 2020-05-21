@@ -1,19 +1,29 @@
 import React, { Component } from 'react'
-import { Typography, List, Button } from 'material-ui'
+import { Typography, List, Button } from '@material-ui/core'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { ListItem, ListItemText, ListItemSecondaryAction } from 'material-ui/List'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+
 import { getHistory } from '../../helpers/api-consultation'
 import Consultation from './Consultation'
 
 const styles = {
-    root: {
-        maxWidth: 900,
-        margin: '0 auto'
+    root: {        
+        margin: 'auto',
+        marginTop: 20,
+        maxWidth: 300,
     },
     list: {
-        maxWidth: 800,
-        margin: '0 auto'
-    }
+        maxWidth: 250,
+        //margin: '0 auto'
+    },
+    expandBtn: {
+        textTransform: 'none', 
+        position: 'relative', 
+        left: '50%', 
+        transform: 'translate(-50%, 0)',
+    },
 }
 
 class History extends Component {
@@ -22,6 +32,7 @@ class History extends Component {
         history: [],
         created: '',
         viewReportIndex: null,
+        expand: false,
         error: ''
     }
 
@@ -36,9 +47,9 @@ class History extends Component {
     }
 
     render() {
-        const selectedReport = this.state.history[this.state.viewReportIndex - 1]
+        const selectedReport = this.state.history[this.state.viewReportIndex]
         return (<div style={styles.root}>
-            { this.state.viewReportIndex 
+            {/* { this.state.viewReportIndex 
             ? <div>
                 <div style={styles.reportHead}>
                     <Button color="primary" 
@@ -52,7 +63,6 @@ class History extends Component {
              </div>
             :<List style={styles.list}>
                 <ListItem>
-                    <ListItemText primary="Index" />
                     <ListItemText primary="Date" />
                     <ListItemText primary="Prediction in %" />
                 
@@ -60,7 +70,6 @@ class History extends Component {
                 {this.state.history.map((item, index) => {
                     return(
                         <ListItem key={index}>
-                            <ListItemText primary={(index + 1).toString()} />
                             <ListItemText primary={item.created} />
                             <ListItemText primary={item.prediction} />
                             <ListItemSecondaryAction>
@@ -73,7 +82,59 @@ class History extends Component {
                     )
                 })}
             </List>
-            }
+            } */}
+
+            <Typography>
+                Medical History
+            </Typography>
+
+            <List style={styles.list}>
+                {/* <ListItem>
+                    <ListItemText primary="" />
+                    <ListItemText primary="Cancer" />
+                    <ListItemText primary="Prediction in %" />
+                
+                </ListItem> */}
+                {this.state.history.map((item, index) => {
+                    const date = new Date(item.created)
+                    const dateString = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear()
+                    
+                    //Only show three rows when not expanded
+                    if (this.state.expand || index < 3)
+                    return(
+                        <ListItem key={index} onClick={() => this.setState({viewReportIndex: index})} style={{padding: 5}}>
+                        <Button style={{width: '100%', textAlign: 'left', padding: 5, textTransform: 'none'}}>
+                            <ListItemText primary={dateString} />
+                            <ListItemText primary="True" />
+                            <ListItemText primary={item.prediction ? item.prediction + "%" : "-"} />
+                            {/* <ListItemSecondaryAction>
+                                <Button color="primary" 
+                                    onClick={() => this.setState({viewReportIndex: index + 1})}>
+                                    View
+                                </Button>
+                            </ListItemSecondaryAction> */}
+                        </Button>
+                        </ListItem>
+                    )
+                })}
+            </List>
+            
+            {this.state.expand 
+            ? (
+               <Button color="primary" onClick={() => this.setState({expand: false})}
+                    style={styles.expandBtn}
+                    endIcon={<ExpandLessIcon />} 
+                >
+                    View Less
+                </Button> 
+            ):(
+                <Button color="primary" onClick={() => this.setState({expand: true})}
+                    style={styles.expandBtn}
+                    endIcon={<ExpandMoreIcon />} 
+                >
+                    View More
+                </Button>   
+            )}   
         </div>)
     }
 }

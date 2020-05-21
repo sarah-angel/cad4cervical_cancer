@@ -10,7 +10,7 @@ import History from './History'
 
 const styles = {
     uploadCard: {
-        maxWidth: 300,
+        maxWidth: 800,
         margin: 'auto',
         marginTop: 50,
         textAlign: "center",
@@ -104,31 +104,30 @@ class RadiologyHome extends Component {
 
         return (
             <div>
-                <Tabs
-                        value={this.state.tab}
-                        onChange={this.handleTabChange}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        centered
-                    >
-                        <Tab label="Consultation" />
-                        <Tab label="History" />
-                </Tabs>
-
-                <PatientDetails patient={this.state.patient} />
+                <div style={{display: 'flex', flexWrap: 'wrap'}}>
+                    <div style={{}} > 
+                        <PatientDetails patient={this.state.patient} />
+                    </div>
+                    <div style={{}} > 
+                        <div style={styles.uploadCard} onClick={this.openUploadDialog}>
+                            <input ref="imageUpload" type="file" 
+                                onChange={this.handleUpload} 
+                                style={{display: 'none'}} 
+                            />
+                            <CardMedia component="img" image={uploadImg} style={styles.uploadMedia} />
+                            <CardContent>
+                                <Typography>
+                                    Upload Patient MRI
+                                </Typography>
+                            </CardContent>
+                        </div>
+                    </div>
+                </div>  
                 {
                     //show loading animation when waiting for response
                 }
                 
-                <div style={styles.uploadCard} onClick={this.openUploadDialog}>
-                    <input ref="imageUpload" type="file" onChange={this.handleUpload} style={{display: 'none'}} />
-                    <CardMedia component="img" image={uploadImg} style={styles.uploadMedia} />
-                    <CardContent>
-                        <Typography>
-                            Upload Patient MRI
-                        </Typography>
-                    </CardContent>
-                </div>
+                
             </div>
         )
 
