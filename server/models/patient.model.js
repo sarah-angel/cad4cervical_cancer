@@ -53,7 +53,7 @@ const PatientSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    residence: { //should be region
+    region: { //should be region
         type: String,
         trim: true
     },

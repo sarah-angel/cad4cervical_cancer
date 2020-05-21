@@ -1,21 +1,29 @@
 import React, { Component } from 'react'
-import { Card, Typography, Box } from '@material-ui/core'
-import { CardContent } from 'material-ui/Card'
-
+import { Card, Typography, Button } from '@material-ui/core'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const styles = {
     root: {
-        maxWidth: 800,
-        margin: 'auto'
+        maxWidth: 300,
+        margin: 'auto',
+        padding: 20,
     },
-    column: {
-        width: '30%'
-    }
+    expandBtn: {
+        textTransform: 'none', 
+        position: 'relative', 
+        left: '50%', 
+        transform: 'translate(-50%, 0)',
+    },
 }
 
 
 class PatientDetails extends Component{
-    
+    state = {
+        expand: false,
+    }
+
     getAge = () => {
         var today = new Date()
         var birthdate = new Date(this.props.patient.date_of_birth)
@@ -37,47 +45,114 @@ class PatientDetails extends Component{
                     <Typography style={styles.title} >
                         Patient Details
                     </Typography>
-                    <Box borderBottom={1} style={styles.bottomBorder} color="text.disabled" />
                     
-                    <CardContent style={{display: "flex"}}>
-                        <div style={styles.column}>
-                           <Typography >
-                            First Name: {patient.firstname}
-                        </Typography>
-                        <Typography >
-                            Middle Name: {patient.middlename}
-                        </Typography>
-                        <Typography >
-                            Last Name: {patient.surname}
-                        </Typography> 
+                    <div style={{marginLeft: 0, justifyContent: 'center'}}>
+                        <div style={{display: 'flex'}} >
+                            <span>
+                                <AccountCircleIcon 
+                                    style={{fontSize: 100, color: 'grey', marginLeft: -10}} 
+                                />
+                            </span>
+                            <span style={{marginTop: 10}}>
+                                <Typography style={{}}>
+                                    {patient.firstname} {patient.middlename} {patient.surname}
+                                </Typography>
+
+                                <Typography style={{color: 'grey', fontSize: 14, marginTop: 10}} >
+                                    Patient ID
+                                </Typography>
+                                <Typography >
+                                     {patient._id}
+                                </Typography>
+                            </span>
                         </div>
-                        <div style={styles.column}>
-                        <Typography >
-                            Age: {this.getAge()}
-                        </Typography>
-                        <Typography >
-                            Gender: {patient.gender}
-                        </Typography>
-                        <Typography >
-                            Blood Type: {patient.blood_type}
-                        </Typography> 
+
+                        <div style={{display: 'flex', marginLeft: 10}} >
+                            <span style={{marginRight: 70}}>
+                                <Typography style={{color: 'grey', fontSize: 14, marginTop: 10}} >
+                                    Age
+                                </Typography>
+                                <Typography >
+                                    {this.getAge()} Yrs
+                                </Typography>
+                            </span>
+                            <span>
+                                <Typography style={{color: 'grey', fontSize: 14, marginTop: 10}} >
+                                    Gender
+                                </Typography>
+                                <Typography >
+                                    {patient.gender}
+                                </Typography>
+                            </span>
                         </div>
-                        <div style={styles.column}>
-                        <Typography >
-                            Occupation: {patient.occupation}
-                        </Typography>
-                        <Typography >
-                            Nationality: {patient.nationality}
-                        </Typography>
-                        <Typography >
-                            Residence: {patient.residence}
-                        </Typography> 
-                        <Typography >
-                            Marital Status: {patient.marital_status}
-                        </Typography> 
+
+                        { this.state.expand ? 
+                        (<div>
+                        <div style={{display: 'flex', marginLeft: 10}} >
+                            <span style={{marginRight: 70}}>
+                                <Typography style={{color: 'grey', fontSize: 14, marginTop: 10}} >
+                                    Blood Type
+                                </Typography>
+                                <Typography >
+                                    {patient.blood_type}
+                                </Typography>
+                            </span>
+                            <span>
+                                <Typography style={{color: 'grey', fontSize: 14, marginTop: 10}} >
+                                    Occupation
+                                </Typography>
+                                <Typography >
+                                    {patient.occupation}
+                                </Typography>
+                            </span>
                         </div>
-                    </CardContent>
-                
+                        <div style={{display: 'flex', marginLeft: 10}} >
+                            <span style={{marginRight: 70}}>
+                                <Typography style={{color: 'grey', fontSize: 14, marginTop: 10}} >
+                                    Nationality
+                                </Typography>
+                                <Typography >
+                                    {patient.nationality}
+                                </Typography>
+                            </span>
+                            <span>
+                                <Typography style={{color: 'grey', fontSize: 14, marginTop: 10}} >
+                                    Residence
+                                </Typography>
+                                <Typography >
+                                    {patient.region}
+                                </Typography>
+                            </span>
+                        </div>
+                            <div style={{display: 'flex', marginLeft: 10}} >
+                                <span style={{marginRight: 70}}>
+                                    <Typography style={{color: 'grey', fontSize: 14, marginTop: 10}} >
+                                        Marital Status
+                                    </Typography>
+                                    <Typography >
+                                        {patient.marital_status}
+                                    </Typography>
+                                </span>  
+                            </div> 
+
+                            <Button color="primary" onClick={() => this.setState({expand: false})}
+                                style={styles.expandBtn}
+                                endIcon={<ExpandLessIcon />} 
+                            >
+                                View Less
+                            </Button>
+                        </div>
+                        ) : (
+
+                        <Button color="primary" onClick={() => this.setState({expand: true})}
+                            style={styles.expandBtn}
+                            endIcon={<ExpandMoreIcon />} 
+                        >
+                            View More
+                        </Button>
+                        )}
+                        
+                    </div>
             </div>
         )
     }

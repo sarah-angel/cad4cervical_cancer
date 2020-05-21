@@ -28,32 +28,14 @@ class LabHome extends Component {
             )
         
             return (
-                <div>
-                <Tabs
-                    value={this.state.tab}
-                    onChange={this.handleTabChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    centered
-                >              
-                    <Tab label="Lab Test" />
-                    <Tab label="History" />
-                </Tabs>
-            
-                {this.state.tab === 1 
-                ? (
-                    <div>
-                        History Section              
-                    </div>
-                ) : (
-                    <div>
-    
+                <div style={{display: 'flex', flexWrap: 'wrap'}}>
+                    <div style={{}} > 
                         <PatientDetails patient={this.state.patient} />
+                    </div>
+                    <div style={{}} > 
                         <LabTest patient={this.state.patient} />
                     </div>
-                ) } 
-     
-                </div>
+                </div>     
             )
     }
 }

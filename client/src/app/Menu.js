@@ -20,7 +20,7 @@ const Menu = withRouter(({history}) => (
             <Toolbar >
                 <Button type="title" 
                     color="inherit"
-                    onClick={() => history.push('/')}
+                    onClick={() => history.go('/')}
                 >
                     CAD4CC
                 </Button>

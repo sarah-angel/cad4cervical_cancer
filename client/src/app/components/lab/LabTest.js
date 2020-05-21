@@ -1,11 +1,17 @@
 import React, { Component } from 'react'
-import { TextField, InputAdornment, MenuItem, Box, Typography, Button } from '@material-ui/core'
+import { TextField, InputAdornment, MenuItem, Box, Typography, Button, Tabs, Tab } from '@material-ui/core'
+
 import { save } from '../../helpers/api-lab'
 
 const styles = {
     root: {
         maxWidth: 800,
-        margin: '0 auto'
+        //margin: 'auto',
+        //width: 800,
+        minWidth: 300,
+        padding: 20,
+        marginBottom: 20,
+        justifyContent: 'center',
     },
     title: {
         marginTop: 5,
@@ -17,16 +23,27 @@ const styles = {
     },
     textField: {
         marginLeft: 5,
-        marginRight: 30,
-        maxWidth: 200,
+        marginRight: 20,
+        //maxWidth: 400,
+        width: '60%',
     },
     selectField: {
         marginLeft: 5,
-        marginRight: 5,
-        width: 150,
+        marginRight: 20,
+        width: '60%',
     },
     controlBtns: {
-        alignContent: 'center'
+        display: 'flex',
+        flexDirection: 'row-reverse',
+        position: 'sticky',
+        bottom: 20,
+        width: '100%',
+        height: '100%',
+        // position: 'static',
+        // right: '0%',
+        // bottom: 0,
+        //left: '100%',
+        //transform: 'translate(-100%, 0)',
     },
 }
 
@@ -72,6 +89,7 @@ class LabTest extends Component {
             uric_acid: '',
         },
         readOnly: false,
+        tab: 0,
         error: '',
     }
 
@@ -130,6 +148,10 @@ class LabTest extends Component {
         })
     }
 
+    handleTabChange = (event, newValue) => {
+        this.setState({tab: newValue})
+    }
+
     //To-Do: Ask user for confirmation 
     //reset state and go to lab home
     discard = (event) => {
@@ -154,72 +176,124 @@ class LabTest extends Component {
     render(){
         return (<div style={styles.root}>
             <Typography style={styles.title} >
-                Test Results
+                Lab Test Results
             </Typography>
             <Box borderBottom={1} style={styles.bottomBorder} color="text.disabled" />
 
-            <br/>        
-            <Typography>Full Blood Picture</Typography>
-            <br/>
-            <TextField id="baso" label="Basophil" onChange={this.handleChange('baso', 'fbp')}
+            <br/>  
+
+            <Tabs
+                value={this.state.tab}
+                onChange={this.handleTabChange}
+                indicatorColor="primary"
+                textColor="primary"
+                //centered
+            >              
+                <Tab label="Full Blood Picture" />
+                <Tab label="Urinalysis" />
+                <Tab label="Other" />
+            </Tabs>
+
+            {this.state.tab === 0
+            ? (
+            <div>
+            <div style={{display: 'flex'}}>
+            <TextField id="baso" label="Basophil" variant="outlined"
+                    onChange={this.handleChange('baso', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.baso} 
+                    // helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="eos" label="Eosinophil" onChange={this.handleChange('eos', 'fbp')}
+            <Typography style={{color: 'grey', fontSize: 15, marginTop: 30}}> Normal Range (0.0 - 13.0)</Typography>
+            </div>
+            <TextField id="eos" label="Eosinophil" variant="outlined"
+                    onChange={this.handleChange('eos', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.eos} 
+                    // helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="hb" label="Haemoglobin" onChange={this.handleChange('hb', 'fbp')} 
+            <TextField id="hb" label="Haemoglobin" variant="outlined"
+                    onChange={this.handleChange('hb', 'fbp')} 
                     margin="normal" style={styles.textField} value={this.state.fbp.hb} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="lymphocyte" label="Lymphocyte" onChange={this.handleChange('lymphocyte', 'fbp')}
+            <TextField id="lymphocyte" label="Lymphocyte" variant="outlined"
+                    onChange={this.handleChange('lymphocyte', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.lymphocyte} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="mch" label="MCH" onChange={this.handleChange('mch', 'fbp')}
+            <TextField id="mch" label="MCH" variant="outlined"
+                    onChange={this.handleChange('mch', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.mch} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="mcv" label="MCV" onChange={this.handleChange('mcv', 'fbp')}
+            <TextField id="mcv" label="MCV" variant="outlined"
+                    onChange={this.handleChange('mcv', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.mcv} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="neutrophil" label="Neutrophil" onChange={this.handleChange('neutrophil', 'fbp')}
+            <TextField id="neutrophil" label="Neutrophil" variant="outlined"
+                    onChange={this.handleChange('neutrophil', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.neutrophil} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="plt" label="Platelet" onChange={this.handleChange('plt', 'fbp')}
+            <TextField id="plt" label="Platelet" variant="outlined"
+                    onChange={this.handleChange('plt', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.plt} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="rbc" label="RBC" onChange={this.handleChange('rbc', 'fbp')}
+            <TextField id="rbc" label="RBC" variant="outlined"
+                    onChange={this.handleChange('rbc', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.rbc} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="wbc" label="WBC" onChange={this.handleChange('wbc', 'fbp')}
+            <TextField id="wbc" label="WBC" variant="outlined"
+                    onChange={this.handleChange('wbc', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.wbc} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <br/>
-            <Typography>Urinalysis</Typography>
-            <br/>
-            <TextField id="bilirubin" label="Bilirubin" onChange={this.handleChange('bilirubin', 'urinalysis')}
+            </div>
+            ) : ( this.state.tab === 1 ) ? (        
+            <div>
+            <TextField id="bilirubin" label="Bilirubin" variant="outlined"
+                    onChange={this.handleChange('bilirubin', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.bilirubin} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="creatinine" label="Creatinine" onChange={this.handleChange('creatinine', 'urinalysis')}
+            <TextField id="creatinine" label="Creatinine" variant="outlined"
+                    onChange={this.handleChange('creatinine', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.creatinine} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="epithelial" label="Epithelial" onChange={this.handleChange('epithelial', 'urinalysis')}
+            <TextField id="epithelial" label="Epithelial" variant="outlined"
+                    onChange={this.handleChange('epithelial', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.epithelial} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="ph" label="pH" onChange={this.handleChange('ph', 'urinalysis')}
+            <TextField id="ph" label="pH" variant="outlined"
+                    onChange={this.handleChange('ph', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.ph} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="protein" label="Protein" onChange={this.handleChange('protein', 'urinalysis')}
+            <TextField id="protein" label="Protein" variant="outlined"
+                    onChange={this.handleChange('protein', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.protein} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="urea" label="Urea" onChange={this.handleChange('urea', 'urinalysis')}
+            <TextField id="urea" label="Urea" variant="outlined"
+                    onChange={this.handleChange('urea', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.urea} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="uric_acid" label="Uric Acid" onChange={this.handleChange('uric_acid', 'urinalysis')}
+            <TextField id="uric_acid" label="Uric Acid" variant="outlined"
+                    onChange={this.handleChange('uric_acid', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.uric_acid} 
+                    helperText="Normal Range (0.5 - 13)"
                     InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <br/>
-            <Typography>Other</Typography>
-            <br/>
-            <TextField id="hiv" label="HIV" onChange={this.handleChange('hiv')}
-                    margin="normal" style={styles.textField, styles.selectField}
+            </div>
+            ) : (
+            <div>
+            <TextField id="hiv" label="HIV" variant="outlined"
+                    onChange={this.handleChange('hiv')}
+                    margin="normal" style={styles.selectField}
                     select value={this.state.hiv}>
                 {select.map(option => (
                     <MenuItem key={option.value} value={option.value}>
@@ -227,8 +301,9 @@ class LabTest extends Component {
                     </MenuItem>
                 ))}    
             </TextField>
-            <TextField id="chest_x_ray" label="Chest X-Ray" onChange={this.handleChange('chest_x_ray')}
-                    margin="normal" style={styles.textField, styles.selectField}
+            <TextField id="chest_x_ray" label="Chest X-Ray" variant="outlined"
+                    onChange={this.handleChange('chest_x_ray')}
+                    margin="normal" style={styles.selectField}
                     select value={this.state.chest_x_ray}>
                 {select.map(option => (
                     <MenuItem key={option.value} value={option.value}>
@@ -236,8 +311,9 @@ class LabTest extends Component {
                     </MenuItem>
                 ))}    
             </TextField>
-            <TextField id="ultrasound" label="Ultrasound" onChange={this.handleChange('ultrasound')}
-                    margin="normal" style={styles.textField, styles.selectField}
+            <TextField id="ultrasound" label="Ultrasound" variant="outlined"
+                    onChange={this.handleChange('ultrasound')}
+                    margin="normal" style={styles.selectField}
                     select value={this.state.ultrasound}>
                 {select.map(option => (
                     <MenuItem key={option.value} value={option.value}>
@@ -245,12 +321,25 @@ class LabTest extends Component {
                     </MenuItem>
                 ))}    
             </TextField>
+            </div>
+            )}
             <br/>
             
             { !this.state.readOnly && (
                 <div style={styles.controlBtns}>
-                    <Button color="primary" onClick={this.saveTest}>Save</Button>
-                    <Button color="primary" onClick={this.discard}>Discard</Button>
+                    <Button color="primary" variant="outlined"
+                        style={{marginLeft: 10}}
+                        onClick={this.discard}
+                    >
+                        Discard
+                    </Button>
+                    <Button color="primary" variant="contained"
+                        style={{marginRight: 10, width: 100}}
+                        onClick={this.saveTest}
+                    >
+                        Save
+                    </Button>
+                    
                 </div>
             )}
             
