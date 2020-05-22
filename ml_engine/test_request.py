@@ -25,13 +25,15 @@ b64image = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4QD4RXhpZgAASUkqA
 import pandas as pd
 
 obj = json.dumps([{
-    'name': 'Angel',
-    'age': 20,
-    'bal': 'kjkfj',
-    'jkdjf': 34,
-    'kdaf': True
-    
-}])
+"existing_symptoms": ["tb", "diabetes"],
+"prolonged vaginal bleeding": False,
+"back pain": False,
+"weight loss": False,
+"nausea": False,
+"pain during sexual intercourse": False,
+"abdominal pain": False,
+"vaginal discharge": False,
+"vomiting": True} ])
 
 df = pd.read_json(obj, orient='records')
 

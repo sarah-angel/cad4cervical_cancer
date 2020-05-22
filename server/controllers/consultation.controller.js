@@ -1,3 +1,6 @@
+import fs from 'fs'
+import { Curl } from 'node-libcurl'
+
 import Consultation from '../models/consultation.models'
 import dbErrorHandler from '../helpers/dbErrorHandler'
 
@@ -6,7 +9,6 @@ import dbErrorHandler from '../helpers/dbErrorHandler'
 //after a lab tests and prediction it updates the consultation
 const saveConsultation = (req, res) => {
     const consultation = new Consultation(req.body)
-
     //consultation_ID is given
     if ( req.body.consultation_ID )
         Consultation.findByIdAndUpdate({_id: req.body.consultation_ID}, req.body)
@@ -67,6 +69,26 @@ const getHistory = (req, res) => {
 }
 
 const getPrediction = (req, res) => {
+    const curl = new Curl()
+    console.log(req.body)
+    var data = { "input": "" + req.body }
+    
+    curl.setOpt('URL', 'http://localhost:1337/consultation/predict')
+    curl.setOpt('CUSTOMREQUEST', 'POST')
+    curl.setOpt(Curl.option.HTTPHEADER, ['Content-Type: application/json'])
+    curl.setOpt('POSTFIELDS', JSON.stringify(data))
+    
+    
+    curl.on('end', (status, body) => {
+        console.log(body)
+    
+        curl.close()
+    })
+    
+    curl.on('error', curl.close.bind(curl))
+    
+    curl.perform()
+
     return res.json({
         prediction: 73
     })

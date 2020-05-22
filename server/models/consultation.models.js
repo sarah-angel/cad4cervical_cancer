@@ -13,11 +13,11 @@ import mongoose from 'mongoose'
  * alcohol (yes/no)
  * region
  * children
- * family_history
- * symptom_duration ?
- * existing_conditions[] ?
+ * family_history (yes/no)
+ * symptom_duration 
+ * existing_conditions[] 
  * prediction
- * comments
+ * notes
  */
 
 const ConsultationSchema = new mongoose.Schema({
@@ -34,7 +34,7 @@ const ConsultationSchema = new mongoose.Schema({
         default: Date.now
     },
     symptoms: {
-        type: [String],
+        type: Object,
         trim: true,
     },
     weight: {
@@ -56,16 +56,23 @@ const ConsultationSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    children: { //should be Number, capped at 7 in model
-        type: String
+    children: { 
+        type: Number
     },
     family_history: {
+        type: Boolean
+    },
+    existing_conditions: {
+        type: [String],
+        trim: true
+    },
+    symptom_duration: {
         type: String
     },
     prediction: {
         type: Number
     },
-    comments: {
+    notes: {
         type: String
     }
 })
