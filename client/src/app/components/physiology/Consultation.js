@@ -10,6 +10,7 @@ import { getPending, getPrediction, save } from '../../helpers/api-consultation'
 import { getByConsultationID } from '../../helpers/api-lab'
 import auth from '../../auth/auth-helper'
 import LabTest from '../lab/LabTest'
+import LabReport from '../lab/LabReport'
 import symptoms from './symptoms'
 import conditions from './conditions'
 
@@ -391,7 +392,7 @@ class Consultation extends Component {
             {this.state.tab === 1 && (
                 <div>
                     { this.state.lab_test && this.state.lab && this.state.open_lab
-                        ? <LabTest labTest={this.state.lab_test}/>
+                        ? <LabReport labTest={this.state.lab_test}/>
                         : <Typography>Lab Results: Unavailable</Typography>
                     }
                 </div>
