@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { TextField, Typography,
      InputAdornment, MenuItem,
-     Button, Checkbox, FormLabel, FormControl,
-     FormControlLabel, FormGroup
+     Button, Checkbox, 
+     FormControlLabel, Tabs, Tab
 } from '@material-ui/core'
-import  AddBoxIcon  from '@material-ui/icons/AddBox'
+import { Autocomplete } from '@material-ui/lab'
 
 import { getPending, getPrediction, save } from '../../helpers/api-consultation'
 import { getByConsultationID } from '../../helpers/api-lab'
@@ -14,23 +14,35 @@ import symptoms from './symptoms'
 import conditions from './conditions'
 
 const styles = {
+    root: {
+        maxWidth: 800,
+        //margin: 'auto',
+        //width: 800,
+        minWidth: 300,
+        padding: 20,
+        marginBottom: 20,
+        justifyContent: 'center',
+    },
+    title: {
+        marginTop: 5,
+        marginBottom: 5,
+    },
+    bottomBorder: {
+        width: '100%',
+        marginTop: 5,
+    },
     textField: {
         marginLeft: 5,
-        marginRight: 30,
-        maxWidth: 200,
-    },
-    form: {
-        maxWidth: 800,
-        margin: '0 auto'
+        //marginRight: 30,
+        //maxWidth: 400,
+        width: '60%',
+        minWidth: 300
     },
     selectField: {
         marginLeft: 5,
-        marginRight: 5,
-        width: 100,
-    },
-    symptomsField: {
-        marginLeft: 5,
-        width: 350
+        //marginRight: 5,
+        width: '20%',
+        minWidth: 95
     },
     controlBtns: {
         display: 'flex',
@@ -39,7 +51,7 @@ const styles = {
         bottom: 20,
         width: '100%',
         height: '100%',
-    }
+    },
 }
 
 const select = [
@@ -97,7 +109,6 @@ class Consultation extends Component {
     state = {
         patient_ID: this.props.patient._id,
         staff_ID: null,
-        //symptoms: [],
         weight: '',
         height: '',
         temperature: '',
@@ -107,15 +118,16 @@ class Consultation extends Component {
         children: '',
         family_history: '',
         symptom_duration: '',
-        existing_conditions: null,
-        prediction: '',
+        existing_conditions: [],
+        diagnosis: '',
         notes: '',
         disagree: false,
         lab: false,
         open_lab: true,
         readOnly: false,
         error: '',
-        symptoms: symptoms,
+        symptoms: [],
+        tab: 0,
     }
 
     /**
@@ -161,8 +173,7 @@ class Consultation extends Component {
             symptom_duration: !data.symptom_duration ? '' : data.symptom_duration,
             prediction: !data.prediction ? '' : data.prediction,
             notes: !data.notes ? '' : data.notes,
-            symptoms: symptoms,
-            existing_conditions: conditions,
+            existing_conditions: data.existing_conditions,
         })
 
         //Get lab results
@@ -189,19 +200,12 @@ class Consultation extends Component {
             if(data.error)
                 this.setState({error: data.error})
             else{
-                this.setState({prediction: data.prediction})
+                this.setState({diagnosis: data})
             }
         })
     }
 
     save = () => {
-        let existing_conditions = []
-        //convert existing_conditions to array
-        Object.entries(this.state.existing_conditions)
-            .map( ([condition, checked], index) => {
-                if (checked)
-                    existing_conditions.push(condition)
-            })
 
         var info = {
             consultation_ID: this.state.consultation_ID,
@@ -217,8 +221,8 @@ class Consultation extends Component {
             children: this.state.children,
             family_history: (this.state.family_history === '') ? null : this.state.family_history,
             symptom_duration: (this.state.symptom_duration === '') ? null : this.symptom_duration,
-            existing_conditions: existing_conditions,
-            prediction: this.state.prediction,
+            existing_conditions: this.state.existing_conditions,
+            diagnosis: this.state.diagnosis,
             notes: this.state.notes,
         }
         save(info).then((data) => {
@@ -237,129 +241,205 @@ class Consultation extends Component {
 
     handleChange = name => event => {
         if (!this.state.readOnly)
-            if ( name == "disagree")
+            if ( name == "disagree"){
                 this.setState({disagree: event.target.checked})
+                this.setState(prevState => ({diagnosis: {diagnosis: !prevState.diagnosis.diagnosis, confidence: null}}))
+            }
             else
                 this.setState({[name]: event.target.value})
     }
 
-    handleSymptoms = event => {
-        symptoms[event.target.name] = event.target.checked
-        this.setState({symptoms: symptoms})
+    handleSymptoms = values => {
+        this.setState({symptoms: values})
     }
 
-    handleConditions = event => {
-        //uncheck none if any other condition is checked
-        if (event.target.name != "none")
-            conditions.none = false
-        conditions[event.target.name] = event.target.checked
-        this.setState({existing_conditions: conditions})
+    handleConditions = (values) => {
+        this.setState({existing_conditions: values})
+    }
+
+    handleTabChange = (event, value) => {
+        this.setState({tab: value})
     }
 
     render() {
-        return(<div style={styles.form}>
-            <TextField id="weight" label="Weight" variant="outlined"
-                    onChange={this.handleChange('weight')}
-                    margin="normal" style={styles.textField} value={this.state.weight}
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="height" label="Height" variant="outlined"
-                    onChange={this.handleChange('height')}
-                    margin="normal" style={styles.textField} value={this.state.height}
-                    InputProps={{endAdornment: <InputAdornment position="end">cm</InputAdornment>}}/>
-            <TextField id="temperature" label="Temperature" variant="outlined"
-                    onChange={this.handleChange('temperature')}
-                    margin="normal" style={styles.textField} value={this.state.temperature}
-                    InputProps={{endAdornment: <InputAdornment position="end">°C</InputAdornment>}}/>
-            <TextField id="children" label="Children" variant="outlined"
-                    onChange={this.handleChange('children')}
-                    margin="normal" style={styles.textField} value={this.state.children} />
-            <TextField id="family_history" label="Family History" variant="outlined"
-                    onChange={this.handleChange('family_history')}
-                    margin="normal" style={styles.selectField}
-                    select value={this.state.family_history}>
-                {select.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                    </MenuItem>
-                ))}
-            </TextField>
-            <TextField id="smokes" label="Smokes" variant="outlined"
-                    onChange={this.handleChange('smokes')}
-                    margin="normal" style={styles.selectField}
-                    select value={this.state.smokes}>
-                {select.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                    </MenuItem>
-                ))}
-            </TextField>
-            <TextField id="alcohol" label="Alcohol" variant="outlined"
-                    onChange={this.handleChange('alcohol')}
-                    margin="normal" style={styles.selectField}
-                    select value={this.state.alcohol}>
-                {select.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                    </MenuItem>
-                ))}
-            </TextField>
+        return(<div style={styles.root}>
 
-            <TextField id="symptom_duration" label="Symptom Duration" variant="outlined"
-                    onChange={this.handleChange('symptom_duration')}
-                    margin="normal" style={styles.selectField}
-                    select value={this.state.symptom_duration}>
-                {durations.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                    </MenuItem>
-                ))}
-            </TextField>
-            <br/>
-            <FormGroup>
-                {Object.entries(symptoms).map(( [symptom, checked], index) => {
-                    return ( 
-                        <FormControlLabel key={index}
-                            control={<Checkbox checked={checked} onChange={this.handleSymptoms} name={symptom}/>}
-                            label={symptom}
+            <Tabs
+                value={this.state.tab}
+                onChange={this.handleTabChange}
+                indicatorColor="primary"
+                textColor="primary"
+                //centered
+            >              
+                <Tab label="Today's Consultation" />
+                <Tab label="Lab Test" />
+                <Tab label="Diagnosis" />
+            </Tabs>
+
+            {this.state.tab === 0 && (
+            <div>                
+                <TextField id="weight" label="Weight" variant="outlined"
+                        onChange={this.handleChange('weight')}
+                        margin="normal" style={styles.textField} value={this.state.weight}
+                        InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                <TextField id="height" label="Height" variant="outlined"
+                        onChange={this.handleChange('height')}
+                        margin="normal" style={styles.textField} value={this.state.height}
+                        InputProps={{endAdornment: <InputAdornment position="end">cm</InputAdornment>}}/>
+                <TextField id="temperature" label="Temperature" variant="outlined"
+                        onChange={this.handleChange('temperature')}
+                        margin="normal" style={styles.textField} value={this.state.temperature}
+                        InputProps={{endAdornment: <InputAdornment position="end">°C</InputAdornment>}}/>
+                <TextField id="children" label="Children" variant="outlined"
+                        onChange={this.handleChange('children')}
+                        margin="normal" style={styles.textField} value={this.state.children} />
+                <br/>
+                <TextField id="family_history" label="Family History" variant="outlined"
+                        onChange={this.handleChange('family_history')}
+                        margin="normal" style={styles.selectField}
+                        select value={this.state.family_history}>
+                    {select.map(option => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+                <TextField id="smokes" label="Smokes" variant="outlined"
+                        onChange={this.handleChange('smokes')}
+                        margin="normal" style={styles.selectField}
+                        select value={this.state.smokes}>
+                    {select.map(option => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+                <TextField id="alcohol" label="Alcohol" variant="outlined"
+                        onChange={this.handleChange('alcohol')}
+                        margin="normal" style={styles.selectField}
+                        select value={this.state.alcohol}>
+                    {select.map(option => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+
+                <TextField id="symptom_duration" label="Symptom Duration" variant="outlined"
+                        onChange={this.handleChange('symptom_duration')}
+                        margin="normal" style={styles.textField}
+                        select value={this.state.symptom_duration}>
+                    {durations.map(option => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+                <br/>
+                <br/>
+                <Autocomplete
+                    multiple disableCloseOnSelect
+                    id="symptoms"
+                    value={this.state.symptoms}
+                    options={Object.keys(symptoms)}
+                    getOptionLabel={(option) => option}
+                    style={styles.textField}
+                    //defaultValue={this.state.symptoms}
+                    //filterSelectedOptions
+                    renderOption={(option, {selected}) => {
+                        return(
+                            <FormControlLabel
+                                control={<Checkbox checked={selected} name={option}/>}
+                                label={option}
+                            />
+                    )}}
+                    renderInput={(params) => (
+                        <TextField {...params} placeholder="Symptom"
+                            variant="outlined" label="Symptoms"
                         />
-                    )
-                })}
-            </FormGroup>
-            <FormGroup>
-                {Object.entries(conditions).map(( [condition, checked], index) => {
-                    return ( 
-                        <FormControlLabel key={index}
-                            control={<Checkbox checked={checked} onChange={this.handleConditions} name={condition}/>}
-                            label={condition}
+                    )}
+                    onChange={(event, values) => this.handleSymptoms(values)}
+                />
+                <br/>
+                <Autocomplete
+                    multiple disableCloseOnSelect
+                    id="conditions"
+                    value={this.state.existing_conditions}
+                    options={Object.keys(conditions)}
+                    getOptionLabel={(option) => option}
+                    style={styles.textField}
+                    //defaultValue={['none']}
+                    //filterSelectedOptions
+                    renderOption={(option, {selected}) => {
+                        return(
+                            <FormControlLabel
+                                control={<Checkbox checked={selected} name={option}/>}
+                                label={option}
+                            />
+                    )}}
+                    renderInput={(params) => (
+                        <TextField {...params} placeholder="Condition"
+                            variant="outlined" label="Existing Conditions"
                         />
-                    )
-                })}
-            </FormGroup>
+                    )}
+                    onChange={(event, values) => this.handleConditions(values)}
+                />
+                <br/>           
+            </div>
+            )}
+
+            {this.state.tab === 1 && (
+                <div>
+                    { this.state.lab_test && this.state.lab && this.state.open_lab
+                        ? <LabTest labTest={this.state.lab_test}/>
+                        : <Typography>Lab Results: Unavailable</Typography>
+                    }
+                </div>
+            )}
             
-            <br/>           
 
-            {/* { this.state.lab_test && this.state.lab && this.state.open_lab
-                ? <LabTest labTest={this.state.lab_test}/>
-                : <Typography>Lab Results: Unavailable</Typography>
-            } */}
-
-            <br/>
-            <TextField id="prediction" label="Prediction" disabled
-                    margin="normal" style={styles.textField} value={this.state.prediction}
-                    InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>}}/>
-            { !this.state.prediction
-                ? <Button  onClick={this.getPrediction} color="primary" disabled={!this.state.lab}>
-                    Get Risk Assessment
-                  </Button>
-                : <FormControlLabel label="Disagree ?" labelPlacement="start"
-                        control={<Checkbox checked={this.state.disagree}
+            {this.state.tab === 2 && (
+            <div>
+                { !this.state.diagnosis
+                    ? <Typography>
+                        Diagnosis not available
+                        </Typography>
+                    : <div> 
+                        <div style={{display: 'flex'}}>
+                            <span style={{marginRight: 70}}>
+                                <Typography style={{color: 'grey', fontSize: 14}}>
+                                    Cervical Cancer
+                                </Typography>
+                                <Typography>
+                                    {this.state.diagnosis.diagnosis ? 'Positive' : 'Negative'}
+                                </Typography>
+                            </span>
+                            <span>
+                                <Typography style={{color: 'grey', fontSize: 14}}>
+                                    Confidence
+                                </Typography>
+                                <Typography style={{textAlign: 'right'}}>
+                                    {this.state.diagnosis.confidence ? this.state.diagnosis.confidence + '%' : 'n/a'}
+                                </Typography>
+                            </span>
+                        </div>
+                        <br/>
+                        <FormControlLabel label="Change Diagnosis" labelPlacement="start"
+                            control={<Checkbox checked={this.state.disagree}
                             onChange={this.handleChange("disagree")} />}
-                  />
-            }
-            <br/>
-            <TextField id="notes" label="Notes" variant="outlined"
-                    onChange={this.handleChange('comments')}
-                    multiline margin="normal" fullWidth value={this.state.notes} />
+                            style={{marginLeft: 0}}
+                        />
+                        <Typography style={{color: 'grey', fontSize: 13}}>
+                            Warning: Changing the diagnosis is irreversible
+                        </Typography>
+                      </div>
+                }
+                <br/>
+                <TextField id="notes" label="Clinical Notes" variant="outlined"
+                        onChange={this.handleChange('comments')}
+                        multiline margin="normal" fullWidth value={this.state.notes} />
+            </div>
+            )}
 
             { !this.state.readOnly && (
                 <div style={styles.controlBtns}>
@@ -369,8 +449,14 @@ class Consultation extends Component {
                     >
                         Discard
                     </Button>
+                    <Button color="secondary" variant="contained"
+                        style={{marginLeft: 10}}
+                        onClick={this.getPrediction}
+                    >
+                        Get Diagnosis
+                    </Button>
                     <Button color="primary" variant="contained"
-                        style={{marginRight: 10, width: 100}}
+                        style={{marginLeft: 10, width: 100}}
                         onClick={this.save}
                     >
                         Save

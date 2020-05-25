@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
  * patient_ID
  * staff_ID
  * created
- * symptoms [] ?each be their own field
+ * symptoms [] 
  * weight
  * height
  * temperature
@@ -34,7 +34,7 @@ const ConsultationSchema = new mongoose.Schema({
         default: Date.now
     },
     symptoms: {
-        type: Object,
+        type: [String],
         trim: true,
     },
     weight: {
@@ -69,8 +69,8 @@ const ConsultationSchema = new mongoose.Schema({
     symptom_duration: {
         type: String
     },
-    prediction: {
-        type: Number
+    diagnosis: {
+        type: Object
     },
     notes: {
         type: String

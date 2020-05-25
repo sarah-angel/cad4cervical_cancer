@@ -41,6 +41,7 @@ class History extends Component {
             if (data.error)
                 this.setState({error: data.error})
             else{
+                console.log(data)
                 this.setState({history: data})
             }
         })
@@ -100,20 +101,20 @@ class History extends Component {
                     const dateString = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear()
                     
                     //Only show three rows when not expanded
-                    if (this.state.expand || index < 3)
+                    if ((this.state.expand || index < 3) && item.diagnosis)
                     return(
                         <ListItem key={index} onClick={() => this.setState({viewReportIndex: index})} style={{padding: 5}}>
-                        <Button style={{width: '100%', textAlign: 'left', padding: 5, textTransform: 'none'}}>
-                            <ListItemText primary={dateString} />
-                            <ListItemText primary="True" />
-                            <ListItemText primary={item.prediction ? item.prediction + "%" : "-"} />
-                            {/* <ListItemSecondaryAction>
-                                <Button color="primary" 
-                                    onClick={() => this.setState({viewReportIndex: index + 1})}>
-                                    View
-                                </Button>
-                            </ListItemSecondaryAction> */}
-                        </Button>
+                            <Button style={{width: '100%', textAlign: 'left', padding: 5, textTransform: 'none'}}>
+                                <ListItemText primary={dateString} style={{color: 'grey', fontSize: 15}} disableTypography/>
+                                <ListItemText primary={item.diagnosis.diagnosis ? 'Positive' : 'Negative'} />
+                                <ListItemText primary={item.diagnosis.confidence ? item.diagnosis.confidence + "%" : "n/a"} />
+                                {/* <ListItemSecondaryAction>
+                                    <Button color="primary" 
+                                        onClick={() => this.setState({viewReportIndex: index + 1})}>
+                                        View
+                                    </Button>
+                                </ListItemSecondaryAction> */}
+                            </Button>
                         </ListItem>
                     )
                 })}

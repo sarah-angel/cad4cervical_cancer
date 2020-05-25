@@ -4,7 +4,7 @@ dotenv.config()
 
 const config = {
     env: process.env.NODE_ENV || 'development',
-    port: process.env.PORT || 5000,
+    port: process.env.PORT || 5001,
     jwtSecret: process.env.JWT_SECRET || 'mysecret',
     mongoUri: process.env.MONGODB_URI ||
             process.env.MONGO_HOST ||

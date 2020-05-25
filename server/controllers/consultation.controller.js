@@ -69,28 +69,10 @@ const getHistory = (req, res) => {
 }
 
 const getPrediction = (req, res) => {
-    const curl = new Curl()
-    console.log(req.body)
-    var data = { "input": "" + req.body }
     
-    curl.setOpt('URL', 'http://localhost:1337/consultation/predict')
-    curl.setOpt('CUSTOMREQUEST', 'POST')
-    curl.setOpt(Curl.option.HTTPHEADER, ['Content-Type: application/json'])
-    curl.setOpt('POSTFIELDS', JSON.stringify(data))
-    
-    
-    curl.on('end', (status, body) => {
-        console.log(body)
-    
-        curl.close()
-    })
-    
-    curl.on('error', curl.close.bind(curl))
-    
-    curl.perform()
-
     return res.json({
-        prediction: 73
+        diagnosis: false,
+        confidence: 73
     })
 }
 
