@@ -5,6 +5,8 @@ const styles = {
     root: {
         maxWidth: 800,
         minWidth: 300,
+        padding: 20,
+        paddingTop: 0,
     },
     row: {
         display: 'flex',
@@ -47,12 +49,15 @@ class LabReport extends Component {
         tab: 0,
     }
 
-    componentDidMount = (props) => {
+    componentDidUpdate = this.componentDidMount = (props) => {
         let labTest = this.props.labTest
+
+        if(this.state.lab_ID !== labTest._id)
         this.setState({
-            hiv: (labTest.hiv === null) ? '' : `${labTest.hiv}`,
-            chest_x_ray: (labTest.chest_x_ray === null) ? '' : `${labTest.chest_x_ray}`,
-            ultrasound: (labTest.ultrasound === null) ? '' : `${labTest.ultrasound}`,
+            lab_ID: labTest._id,
+            hiv: (labTest.hiv === null) ? '' : labTest.hiv,
+            chest_x_ray: (labTest.chest_x_ray === null) ? '' : labTest.chest_x_ray,
+            ultrasound: (labTest.ultrasound === null) ? '' : labTest.ultrasound,
             fbp: {
                 baso: labTest.fbp.baso ? labTest.fbp.baso : '',
                 eos: labTest.fbp.eos ? labTest.fbp.eos : '',
@@ -104,7 +109,7 @@ class LabReport extends Component {
                             Basophil (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.fbp.baso}
+                            {this.state.fbp.baso ? this.state.fbp.baso : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -115,7 +120,7 @@ class LabReport extends Component {
                             Eosinophil (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.fbp.eos}
+                            {this.state.fbp.eos ? this.state.fbp.eos : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -128,7 +133,7 @@ class LabReport extends Component {
                             Haemoglobin (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.fbp.hb}
+                            {this.state.fbp.hb ? this.state.fbp.hb : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -139,7 +144,7 @@ class LabReport extends Component {
                             Lymphocyte (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.fbp.lymphocyte}
+                            {this.state.fbp.lymphocyte ? this.state.fbp.lymphocyte : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -152,7 +157,7 @@ class LabReport extends Component {
                             MCH (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.fbp.mch}
+                            {this.state.fbp.mch ? this.state.fbp.mch : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -163,7 +168,7 @@ class LabReport extends Component {
                             MCV (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.mcv}
+                            {this.state.mcv ? this.state.mcv : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -176,7 +181,7 @@ class LabReport extends Component {
                             Neutrophil (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.fbp.neutrophil}
+                            {this.state.fbp.neutrophil ? this.state.fbp.neutrophil: 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -187,7 +192,7 @@ class LabReport extends Component {
                             Platelet (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.fbp.plt}
+                            {this.state.fbp.plt ? this.state.fbp.plt : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -200,7 +205,7 @@ class LabReport extends Component {
                             RBC (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.fbp.rbc}
+                            {this.state.fbp.rbc ? this.state.fbp.rbc : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -211,7 +216,7 @@ class LabReport extends Component {
                             WBC (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.fbp.wbc}
+                            {this.state.fbp.wbc ? this.state.fbp.wbc : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -229,7 +234,7 @@ class LabReport extends Component {
                             Bilirubin (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.urinalysis.bilirubin}
+                            {this.state.urinalysis.bilirubin ? this.state.urinalysis.bilirubin : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -240,7 +245,7 @@ class LabReport extends Component {
                             Creatinine (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.urinalysis.creatinine}
+                            {this.state.urinalysis.creatinine ? this.state.urinalysis.creatinine : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -253,7 +258,7 @@ class LabReport extends Component {
                             Epithelial (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.urinalysis.epithelial}
+                            {this.state.urinalysis.epithelial ? this.state.urinalysis.epithelial : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -264,7 +269,7 @@ class LabReport extends Component {
                             pH (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.urinalysis.ph}
+                            {this.state.urinalysis.ph ? this.state.urinalysis.ph : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -277,7 +282,7 @@ class LabReport extends Component {
                             Protein (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.urinalysis.protein}
+                            {this.state.urinalysis.protein ? this.state.urinalysis.protein : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -288,7 +293,7 @@ class LabReport extends Component {
                             Urea (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.urinalysis.urea}
+                            {this.state.urinalysis.urea ? this.state.urinalysis.urea : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -301,7 +306,7 @@ class LabReport extends Component {
                             Uric Acid (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            {this.state.urinalysis.uric_acid}
+                            {this.state.urinalysis.uric_acid ? this.state.urinalysis.uric_acid : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
@@ -327,40 +332,40 @@ class LabReport extends Component {
                 <div style={styles.row}>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Confidence (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            HIV
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            356
+                            {this.state.hiv ? 'Positive' : 'Negative'}
                         </Typography>
-                        <Typography style={{color: 'grey', fontSize: 14}}>
+                        {/* <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
-                        </Typography>
+                        </Typography> */}
                     </span>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Confidence (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Chest X-Ray
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            356
+                            {this.state.chest_x_ray ? 'Yes' : 'No'}
                         </Typography>
-                        <Typography style={{color: 'grey', fontSize: 14}}>
+                        {/* <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
-                        </Typography>
+                        </Typography> */}
                     </span>
                 </div>
                 <div style={styles.row}>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Confidence (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Ultrasound
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
-                            356
+                            {this.state.ultrasound ? 'Yes' : 'No'}
                         </Typography>
-                        <Typography style={{color: 'grey', fontSize: 14}}>
+                        {/* <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
-                        </Typography>
+                        </Typography> */}
                     </span>
-                    <span style={styles.field}>
+                    {/* <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
                             Confidence (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
                         </Typography>
@@ -370,7 +375,7 @@ class LabReport extends Component {
                         <Typography style={{color: 'grey', fontSize: 14}}>
                             Normal Range (0.6 - 13.0)
                         </Typography>
-                    </span>
+                    </span> */}
                 </div>
             </div>
             )}

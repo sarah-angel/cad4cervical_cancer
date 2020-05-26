@@ -37,18 +37,11 @@ class History extends Component {
     }
 
     componentDidMount() {
-        getHistory(this.props.patient._id).then((data) => {
-            if (data.error)
-                this.setState({error: data.error})
-            else{
-                console.log(data)
-                this.setState({history: data})
-            }
-        })
+        this.setState({history: this.props.history})
     }
 
     render() {
-        const selectedReport = this.state.history[this.state.viewReportIndex]
+        //const selectedReport = this.state.history[this.state.viewReportIndex]
         return (<div style={styles.root}>
             {/* { this.state.viewReportIndex 
             ? <div>
@@ -103,7 +96,7 @@ class History extends Component {
                     //Only show three rows when not expanded
                     if ((this.state.expand || index < 3) && item.diagnosis)
                     return(
-                        <ListItem key={index} onClick={() => this.setState({viewReportIndex: index})} style={{padding: 5}}>
+                        <ListItem key={index} onClick={() => this.props.setViewReportIndex(index)} style={{padding: 5}}>
                             <Button style={{width: '100%', textAlign: 'left', padding: 5, textTransform: 'none'}}>
                                 <ListItemText primary={dateString} style={{color: 'grey', fontSize: 15}} disableTypography/>
                                 <ListItemText primary={item.diagnosis.diagnosis ? 'Positive' : 'Negative'} />

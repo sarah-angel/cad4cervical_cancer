@@ -129,6 +129,7 @@ class Consultation extends Component {
         error: '',
         symptoms: [],
         tab: 0,
+        diagnosisBtn: false,
     }
 
     /**
@@ -185,14 +186,17 @@ class Consultation extends Component {
                 if(data.error)
                     this.setState({error: data.error})
                 else{
-                    this.setState({lab: true, lab_test: data})
+                    this.setState({lab: true, lab_test: data, diagnosisBtn: true})
                 }
-        })
+            })
 
     }
 
     //Only triggered if lab test is available
     getPrediction = () => {
+        //disable get diagnosis button
+        this.setState({diagnosisBtn: false})
+
         var info = {
             info: 'bla',
             symptoms: this.state.symptoms
@@ -345,8 +349,6 @@ class Consultation extends Component {
                     options={Object.keys(symptoms)}
                     getOptionLabel={(option) => option}
                     style={styles.textField}
-                    //defaultValue={this.state.symptoms}
-                    //filterSelectedOptions
                     renderOption={(option, {selected}) => {
                         return(
                             <FormControlLabel
@@ -369,8 +371,6 @@ class Consultation extends Component {
                     options={Object.keys(conditions)}
                     getOptionLabel={(option) => option}
                     style={styles.textField}
-                    //defaultValue={['none']}
-                    //filterSelectedOptions
                     renderOption={(option, {selected}) => {
                         return(
                             <FormControlLabel
@@ -437,7 +437,7 @@ class Consultation extends Component {
                 }
                 <br/>
                 <TextField id="notes" label="Clinical Notes" variant="outlined"
-                        onChange={this.handleChange('comments')}
+                        onChange={this.handleChange('notes')} rows={4} rowsMax={20}
                         multiline margin="normal" fullWidth value={this.state.notes} />
             </div>
             )}
@@ -450,12 +450,14 @@ class Consultation extends Component {
                     >
                         Discard
                     </Button>
+                    { this.state.diagnosisBtn && 
                     <Button color="secondary" variant="contained"
-                        style={{marginLeft: 10}}
+                        style={{marginLeft: 10}} disabled={ !this.state.diagnosisBtn }
                         onClick={this.getPrediction}
                     >
                         Get Diagnosis
                     </Button>
+                    }
                     <Button color="primary" variant="contained"
                         style={{marginLeft: 10, width: 100}}
                         onClick={this.save}
