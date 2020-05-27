@@ -422,7 +422,7 @@ class Consultation extends Component {
                         </Typography>
                     : <div> 
                         <div style={{display: 'flex'}}>
-                            <span style={{marginRight: 70}}>
+                            <span style={{width: '40%', minWidth: 200}}>
                                 <Typography style={{color: 'grey', fontSize: 14}}>
                                     Cervical Cancer
                                 </Typography>
@@ -430,7 +430,7 @@ class Consultation extends Component {
                                     {this.state.diagnosis.diagnosis ? 'Positive' : 'Negative'}
                                 </Typography>
                             </span>
-                            <span>
+                            <span style={{width: '40%', minWidth: 200}}>
                                 <Typography style={{color: 'grey', fontSize: 14}}>
                                     Confidence
                                 </Typography>

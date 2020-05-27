@@ -35,7 +35,10 @@ const assessImage = (req, res) => {
     curl.perform()
 
     res.json({
-        prediction: 60,
+        diagnosis: {
+            diagnosis: false,
+            confidence: 70
+        },
         heatmap: base64_encode( __dirname + '/random_mri_heatmap.jpg')     
     })
 }

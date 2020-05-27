@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { Tabs, Tab, Typography } from 'material-ui'
 import { CardContent, CardMedia } from 'material-ui/Card'
+import { findDOMNode } from 'react-dom'
+
 import uploadImg from '../../../assets/images/upload-big-arrow.png'
 import SearchPatient from '../search/SearchPatient'
 import PatientDetails from '../patient/PatientDetails'
-import { findDOMNode } from 'react-dom'
+import { getHistory } from '../../helpers/api-radiology'
 import Assessment from './Assessment'
-import History from './History'
+import History from '../physiology/History'
+import AssessmentReport from './AssessmentReport'
 
 const styles = {
     uploadCard: {
@@ -28,36 +31,38 @@ class RadiologyHome extends Component {
         super(props)
         this.state = {
             patient: null,
+            history: null,
+            viewReportIndex: null,
+            viewReport: null,
             image: null,
             tab: 0, //current tab (Consultation)
         }
-    }
-
-    getPatient = (patient) => {
-        this.setState({ patient: patient })
     }
 
     handleTabChange = (event, newValue) => {
         this.setState({tab: newValue})
     }
 
-    //Can't make a component an input field so have to redirect the click
-    openUploadDialog = () => {
-        var fileUploadDom = findDOMNode(this.refs.imageUpload)
-        fileUploadDom.click()
+    getPatient = (patient) => {
+        this.setState({ patient: patient })
+
+        getHistory(patient._id).then((data) => {
+            if (data.error)
+                this.setState({error: data.error})
+            else{
+                this.setState({history: data})
+            }
+        })
     }
 
-    //Convert uploaded image to base64 and sets it to the state
-    handleUpload = (event) => {
-        var file = event.target.files[0]
-        var reader = new FileReader()
-        reader.onloadend = () => {
-            this.setState({image: reader.result})
-        }
-        reader.readAsDataURL(file)
+    setViewReportIndex = (index) => {
+        //this.setState({viewReportIndex: index})
+        
+        if (index != null)
+            this.setState({viewReport: this.state.history[index]})
+        else
+            this.setState({viewReport: null})
     }
-
-    //To-Do: Tabs duplicated 3 times!!? Refactor
 
     render() {
         if ( !this.state.patient )
@@ -66,61 +71,25 @@ class RadiologyHome extends Component {
                     <SearchPatient getPatient={this.getPatient} />
                 </div>
             )
-        
-        //Display history section when tab changes
-        if ( this.state.tab === 1 )
-                return (
-                    <div>
-                    <Tabs
-                        value={this.state.tab}
-                        onChange={this.handleTabChange}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        centered
-                    >
-                        <Tab label="Consultation" />
-                        <Tab label="History" />
-                    </Tabs>
-                    <History patient={this.state.patient} />
-                    </div>
-                )
-
-        if ( this.state.image && this.state.tab === 0 )
-            return (
-                <div>
-                    <Tabs
-                        value={this.state.tab}
-                        onChange={this.handleTabChange}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        centered
-                    >
-                        <Tab label="Consultation" />
-                        <Tab label="History" />
-                    </Tabs>
-                    <Assessment image={this.state.image} patient={this.state.patient} />
-                </div>
-            )
 
         return (
             <div>
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
-                    <div style={{}} > 
+                    <div style={{flex: 1, maxWidth: 300}} > 
                         <PatientDetails patient={this.state.patient} />
-                    </div>
-                    <div style={{}} > 
-                        <div style={styles.uploadCard} onClick={this.openUploadDialog}>
-                            <input ref="imageUpload" type="file" 
-                                onChange={this.handleUpload} 
-                                style={{display: 'none'}} 
+                        {this.state.history && 
+                            <History history={this.state.history} 
+                                setViewReportIndex={this.setViewReportIndex} 
                             />
-                            <CardMedia component="img" image={uploadImg} style={styles.uploadMedia} />
-                            <CardContent>
-                                <Typography>
-                                    Upload Patient MRI
-                                </Typography>
-                            </CardContent>
-                        </div>
+                        }
+                    </div>
+                    <div style={{flex: 1, justifyContent: 'center'}} > 
+                        {this.state.viewReport 
+                            ? <AssessmentReport report={this.state.viewReport}
+                                setViewReportIndex={this.setViewReportIndex}
+                                />
+                            : <Assessment patient={this.state.patient} />
+                        }
                     </div>
                 </div>  
                 {

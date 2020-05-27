@@ -234,7 +234,7 @@ class ConsultationReport extends Component {
                             Clinical Notes
                         </Typography>
                         <Typography>
-                            lwjdkjklalsdlasasdlsldlsdll
+                            {this.state.report.notes}
                         </Typography>
 
                     </div>

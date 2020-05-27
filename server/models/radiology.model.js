@@ -27,10 +27,10 @@ const RadiologyTestSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Image is required']
     },
-    prediction: {
-        type: Number,
+    diagnosis: {
+        type: Object,
     },
-    comments: {
+    notes: {
         type: String,
     }
 })
