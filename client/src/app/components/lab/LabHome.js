@@ -29,10 +29,10 @@ class LabHome extends Component {
         
             return (
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
-                    <div style={{}} > 
+                    <div style={{flex: 1, maxWidth: 300}} > 
                         <PatientDetails patient={this.state.patient} />
                     </div>
-                    <div style={{}} > 
+                    <div style={{flex: 1, justifyContent: 'center'}} > 
                         <LabTest patient={this.state.patient} />
                     </div>
                 </div>     

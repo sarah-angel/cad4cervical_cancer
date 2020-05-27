@@ -1,8 +1,10 @@
 import fs from 'fs'
 import { Curl } from 'node-libcurl'
+import axios from 'axios'
 
 import Consultation from '../models/consultation.models'
 import dbErrorHandler from '../helpers/dbErrorHandler'
+import config from '../../config/config'
 
 //Saves consultation
 //saves the first time when lab tests and prediction are not yet done
@@ -69,11 +71,18 @@ const getHistory = (req, res) => {
 }
 
 const getPrediction = (req, res) => {
-    
-    return res.json({
-        diagnosis: false,
-        confidence: 73
-    })
+
+    axios.post(config.modelUri, req.body)
+        .then((result) => {
+            return res.json({
+                diagnosis: result.data.diagnosis,
+                confidence: result.data.confidence
+            })
+        }).catch((err) => {
+            return res.status(400).json({
+                error: err
+            })
+        })    
 }
 
 export default { saveConsultation, getPendingConsultation, findByPatientID, getHistory, getPrediction }

@@ -8,7 +8,7 @@ import { getByConsultationID } from '../../helpers/api-lab'
 const styles = {
     root: {
         maxWidth: 800,
-        //margin: 'auto',
+        margin: 'auto',
         //width: 800,
         minWidth: 300,
         padding: 20,
@@ -21,7 +21,7 @@ const styles = {
         flexWrap: 'wrap',
     },
     field: {
-        width: '50%', 
+        width: '40%', 
         minWidth: 200, 
         marginBottom: 20
     },
@@ -88,7 +88,7 @@ class ConsultationReport extends Component {
                     onChange={this.handleTabChange}
                     indicatorColor="primary"
                     textColor="primary"
-                    //centered
+                    centered
                 >              
                     <Tab label="Consultation" />
                     <Tab label="Lab Test" />
@@ -98,7 +98,7 @@ class ConsultationReport extends Component {
                 <br/>
 
                 {this.state.tab === 0 && (
-                <div>
+                <div style={{padding: 20, marginLeft: 20}}>
                     <div style={styles.row}>
                         <span style={styles.field}>
                             <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
@@ -202,7 +202,7 @@ class ConsultationReport extends Component {
                 )}
 
                 {this.state.tab === 1 && (
-                <div>
+                <div style={{marginLeft: 20}}>
                     {this.state.labTest && 
                         <LabReport labTest={this.state.labTest}/>
                     }
@@ -210,7 +210,7 @@ class ConsultationReport extends Component {
                 )}
 
                 {this.state.tab === 2 && (
-                <div>
+                <div style={{marginLeft: 20, padding: 20}}>
                     <div style={styles.row}>
                         <span style={styles.field}>
                             <Typography style={{color: 'grey', fontSize: 14}}>

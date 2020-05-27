@@ -10,7 +10,8 @@ const config = {
             process.env.MONGO_HOST ||
             'mongodb://' + (process.env.IP || 'localhost') + ':' +
             (process.env.MONGO_PORT || '27017') +
-            '/cad4cervical_cancer'
+            '/cad4cervical_cancer',
+    modelUri: process.env.MODEL_URL || 'http://localhost:5000/model'
 }
 
 export default config

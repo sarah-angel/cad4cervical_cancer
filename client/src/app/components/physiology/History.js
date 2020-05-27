@@ -13,6 +13,7 @@ const styles = {
         margin: 'auto',
         marginTop: 20,
         maxWidth: 300,
+        padding: 20,
     },
     list: {
         maxWidth: 250,
@@ -43,41 +44,6 @@ class History extends Component {
     render() {
         //const selectedReport = this.state.history[this.state.viewReportIndex]
         return (<div style={styles.root}>
-            {/* { this.state.viewReportIndex 
-            ? <div>
-                <div style={styles.reportHead}>
-                    <Button color="primary" 
-                        onClick={() => this.setState({viewReportIndex: null})}>
-                        <ArrowBackIcon/>
-                        &nbsp;Back
-                    </Button>
-                    <span style={{float: "right"}}>{selectedReport.created}</span>
-                </div>
-                <Consultation patient={this.state.patient} report={selectedReport} />
-             </div>
-            :<List style={styles.list}>
-                <ListItem>
-                    <ListItemText primary="Date" />
-                    <ListItemText primary="Prediction in %" />
-                
-                </ListItem>
-                {this.state.history.map((item, index) => {
-                    return(
-                        <ListItem key={index}>
-                            <ListItemText primary={item.created} />
-                            <ListItemText primary={item.prediction} />
-                            <ListItemSecondaryAction>
-                                <Button color="primary" 
-                                    onClick={() => this.setState({viewReportIndex: index + 1})}>
-                                    View Report
-                                </Button>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    )
-                })}
-            </List>
-            } */}
-
             <Typography>
                 Medical History
             </Typography>

@@ -9,7 +9,6 @@ import { Autocomplete } from '@material-ui/lab'
 import { getPending, getPrediction, save } from '../../helpers/api-consultation'
 import { getByConsultationID } from '../../helpers/api-lab'
 import auth from '../../auth/auth-helper'
-import LabTest from '../lab/LabTest'
 import LabReport from '../lab/LabReport'
 import symptoms from './symptoms'
 import conditions from './conditions'
@@ -17,7 +16,7 @@ import conditions from './conditions'
 const styles = {
     root: {
         maxWidth: 800,
-        //margin: 'auto',
+        margin: '0 auto',
         //width: 800,
         minWidth: 300,
         padding: 20,
@@ -35,15 +34,22 @@ const styles = {
     textField: {
         marginLeft: 5,
         //marginRight: 30,
-        //maxWidth: 400,
-        width: '60%',
-        minWidth: 300
+        //maxWidth: 600,
+        //width: 500,
+        width: '100%',
+        minWidth: 300,
+        //margin: '0 auto',
+    },
+    textFieldDiv: {
+        maxWidth: '60%',
+        minWidth: 300,
+        //margin: 'auto'
     },
     selectField: {
         marginLeft: 5,
         //marginRight: 5,
-        width: '20%',
-        minWidth: 95
+        width: '32%',
+        minWidth: 150,
     },
     controlBtns: {
         display: 'flex',
@@ -126,7 +132,7 @@ class Consultation extends Component {
         lab: false,
         open_lab: true,
         readOnly: false,
-        error: '',
+        error: null,
         symptoms: [],
         tab: 0,
         diagnosisBtn: false,
@@ -146,19 +152,24 @@ class Consultation extends Component {
         }
 
         var data = {}
-
-        if (this.props.report){
-            data = this.props.report
-            this.setState({
-                readOnly: true,
-            })
-        }else
         await getPending(patient).then( (res) => {
             if(res.error)
                 this.setState({error: res.error})
             else{
                 data = res
             }
+        }).then(res => {
+            //Get lab results       
+            if (data._id)
+            getByConsultationID(data._id).then((labData) => {
+                if( !labData ) return
+
+                if(labData.error)
+                    this.setState({error: labData.error})
+                else{
+                    this.setState({lab: true, lab_test: labData, diagnosisBtn: true})
+                }
+            })
         })
 
         await this.setState({
@@ -173,22 +184,9 @@ class Consultation extends Component {
             children: !data.children ? '' : data.children,
             family_history: !data.family_history ? '' : data.family_history,
             symptom_duration: !data.symptom_duration ? '' : data.symptom_duration,
-            prediction: !data.prediction ? '' : data.prediction,
             notes: !data.notes ? '' : data.notes,
             existing_conditions: data.existing_conditions,
         })
-
-        //Get lab results
-        if (this.state.consultation_ID)
-            getByConsultationID(this.state.consultation_ID).then((data) => {
-                if( !data ) return
-
-                if(data.error)
-                    this.setState({error: data.error})
-                else{
-                    this.setState({lab: true, lab_test: data, diagnosisBtn: true})
-                }
-            })
 
     }
 
@@ -198,12 +196,29 @@ class Consultation extends Component {
         this.setState({diagnosisBtn: false})
 
         var info = {
-            info: 'bla',
-            symptoms: this.state.symptoms
+            age: this.props.patient.age,
+            gender: this.props.patient.gender,
+            region: this.props.patient.region,
+            weight: this.state.weight,
+            height: this.state.height,
+            temperature: this.state.temperature,
+            smokes: (this.state.smokes === '') ? null : this.state.smokes,
+            alcohol: (this.state.alcohol === '') ? null : this.state.alcohol,
+            children: this.state.children,
+            family_history: (this.state.family_history === '') ? null : this.state.family_history,
+            symptom_duration: (this.state.symptom_duration === '') ? null : this.symptom_duration,
+            existing_conditions: this.state.existing_conditions,
+            symptoms: this.state.symptoms,
+            hiv: this.state.lab_test.hiv,
+            chest_x_ray: this.state.lab_test.chest_x_ray,
+            ultrasound: this.state.lab_test.ultrasound,
+            fbp: this.state.lab_test.fbp,
+            urinalysis: this.state.lab_test.urinalysis
         }
+
         getPrediction(info).then((data) => {
             if(data.error)
-                this.setState({error: data.error})
+                this.setState({error: data.error, diagnosisBtn: true})
             else{
                 this.setState({diagnosis: data})
             }
@@ -274,7 +289,7 @@ class Consultation extends Component {
                 onChange={this.handleTabChange}
                 indicatorColor="primary"
                 textColor="primary"
-                //centered
+                centered
             >              
                 <Tab label="Today's Consultation" />
                 <Tab label="Lab Test" />
@@ -282,7 +297,7 @@ class Consultation extends Component {
             </Tabs>
 
             {this.state.tab === 0 && (
-            <div>                
+            <div style={styles.textFieldDiv}>                
                 <TextField id="weight" label="Weight" variant="outlined"
                         onChange={this.handleChange('weight')}
                         margin="normal" style={styles.textField} value={this.state.weight}
@@ -451,12 +466,12 @@ class Consultation extends Component {
                         Discard
                     </Button>
                     { this.state.diagnosisBtn && 
-                    <Button color="secondary" variant="contained"
-                        style={{marginLeft: 10}} disabled={ !this.state.diagnosisBtn }
-                        onClick={this.getPrediction}
-                    >
-                        Get Diagnosis
-                    </Button>
+                        <Button color="secondary" variant="contained"
+                            style={{marginLeft: 10}} disabled={ !this.state.diagnosisBtn }
+                            onClick={this.getPrediction}
+                        >
+                            Get Diagnosis
+                        </Button>
                     }
                     <Button color="primary" variant="contained"
                         style={{marginLeft: 10, width: 100}}
@@ -469,9 +484,14 @@ class Consultation extends Component {
             )}
 
 
-            {this.state.error && (
+            { typeof this.state.error ===  'string' && (
                 <Typography color="error">
                     {this.state.error}
+                </Typography>
+            )}
+            { this.state.error && typeof this.state.error.message === 'string' && (
+                <Typography color="error">
+                    {this.state.error.message}
                 </Typography>
             )}
 

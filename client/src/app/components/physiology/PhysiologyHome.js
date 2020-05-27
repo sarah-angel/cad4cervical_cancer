@@ -60,7 +60,7 @@ class PhysiologyHome extends Component {
         return (
             <div>
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
-                    <div style={{}} > 
+                    <div style={{flex: 1, maxWidth: 300}} > 
                         <PatientDetails patient={this.state.patient} />
                         {this.state.history && 
                             <History history={this.state.history} 
@@ -68,7 +68,7 @@ class PhysiologyHome extends Component {
                             />
                         }
                     </div>
-                    <div style={{}} > 
+                    <div style={{flex: 1, justifyContent: 'center'}} > 
                         {this.state.viewReport
                             ? (
                                 <ConsultationReport report={this.state.viewReport} 

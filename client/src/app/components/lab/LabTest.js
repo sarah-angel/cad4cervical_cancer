@@ -6,7 +6,7 @@ import { save } from '../../helpers/api-lab'
 const styles = {
     root: {
         maxWidth: 800,
-        //margin: 'auto',
+        margin: '0 auto',
         //width: 800,
         minWidth: 300,
         padding: 20,
@@ -175,19 +175,13 @@ class LabTest extends Component {
 
     render(){
         return (<div style={styles.root}>
-            <Typography style={styles.title} >
-                Lab Test Results
-            </Typography>
-            <Box borderBottom={1} style={styles.bottomBorder} color="text.disabled" />
-
-            <br/>  
-
+    
             <Tabs
                 value={this.state.tab}
                 onChange={this.handleTabChange}
                 indicatorColor="primary"
                 textColor="primary"
-                //centered
+                centered
             >              
                 <Tab label="Full Blood Picture" />
                 <Tab label="Urinalysis" />
@@ -197,94 +191,106 @@ class LabTest extends Component {
             {this.state.tab === 0
             ? (
             <div>
-            <TextField id="baso" label="Basophil" variant="outlined"
+            <TextField id="baso" label="Basophils" variant="outlined"
                     onChange={this.handleChange('baso', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.baso} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="eos" label="Eosinophil" variant="outlined"
+                    helperText="Normal Range (0 - 3)"
+                    InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>}}/>
+            <TextField id="eos" label="Eosinophils" variant="outlined"
                     onChange={this.handleChange('eos', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.eos} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                    helperText="Normal Range (0 - 7)"
+                    InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>}}/>
             <TextField id="hb" label="Haemoglobin" variant="outlined"
                     onChange={this.handleChange('hb', 'fbp')} 
                     margin="normal" style={styles.textField} value={this.state.fbp.hb} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="lymphocyte" label="Lymphocyte" variant="outlined"
+                    helperText="Normal Range (12.5 - 17.0)"
+                    InputProps={{endAdornment: <InputAdornment position="end">g/dL</InputAdornment>}}/>
+            <TextField id="lymphocyte" label="Lymphocytes" variant="outlined"
                     onChange={this.handleChange('lymphocyte', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.lymphocyte} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                    helperText="Normal Range (14 - 46)"
+                    InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>}}/>
             <TextField id="mch" label="MCH" variant="outlined"
                     onChange={this.handleChange('mch', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.mch} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                    helperText="Normal Range (27.0 - 34.0)"
+                    InputProps={{endAdornment: <InputAdornment position="end">pg</InputAdornment>}}/>
             <TextField id="mcv" label="MCV" variant="outlined"
                     onChange={this.handleChange('mcv', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.mcv} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="neutrophil" label="Neutrophil" variant="outlined"
+                    helperText="Normal Range (80 - 98)"
+                    InputProps={{endAdornment: <InputAdornment position="end">fL</InputAdornment>}}/>
+            <TextField id="neutrophil" label="Neutrophils" variant="outlined"
                     onChange={this.handleChange('neutrophil', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.neutrophil} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
-            <TextField id="plt" label="Platelet" variant="outlined"
+                    helperText="Normal Range (40 - 74)"
+                    InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>}}/>
+            <TextField id="plt" label="Platelets" variant="outlined"
                     onChange={this.handleChange('plt', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.plt} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                    helperText="Normal Range (140 - 415)"
+                    InputProps={{endAdornment: 
+                        <InputAdornment position="end">
+                            <Typography style={{display: "flex", color: 'grey'}}>10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>3</Typography>/μL</Typography>
+                        </InputAdornment>
+                    }}/>
             <TextField id="rbc" label="RBC" variant="outlined"
                     onChange={this.handleChange('rbc', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.rbc} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                    helperText="Normal Range (4.10 - 5.60)"
+                    InputProps={{endAdornment: 
+                        <InputAdornment position="end">
+                            <Typography style={{display: 'flex', color: 'grey'}}>10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>6</Typography>/μL</Typography>
+                        </InputAdornment>
+                    }}/>
             <TextField id="wbc" label="WBC" variant="outlined"
                     onChange={this.handleChange('wbc', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.wbc} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                    helperText="Normal Range (4.0 - 10.5)"
+                    InputProps={{endAdornment: 
+                        <InputAdornment position="end">
+                            <Typography style={{display: 'flex', color: 'grey'}}>10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>3</Typography>/μL</Typography>
+                        </InputAdornment>
+                    }}/>
             </div>
             ) : ( this.state.tab === 1 ) ? (        
             <div>
             <TextField id="bilirubin" label="Bilirubin" variant="outlined"
                     onChange={this.handleChange('bilirubin', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.bilirubin} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                    helperText="Normal Range (3 - 17)"
+                    InputProps={{endAdornment: <InputAdornment position="end">μmol/L</InputAdornment>}}/>
             <TextField id="creatinine" label="Creatinine" variant="outlined"
                     onChange={this.handleChange('creatinine', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.creatinine} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                    helperText="Normal Range (M 68 - 150, W 6 - 98)"
+                    InputProps={{endAdornment: <InputAdornment position="end">μmol/L</InputAdornment>}}/>
             <TextField id="epithelial" label="Epithelial" variant="outlined"
                     onChange={this.handleChange('epithelial', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.epithelial} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                    helperText="Normal Range (1 - 5)"
+                    InputProps={{endAdornment: <InputAdornment position="end">hpf</InputAdornment>}}/>
             <TextField id="ph" label="pH" variant="outlined"
                     onChange={this.handleChange('ph', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.ph} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                    helperText="Normal Range (4.5 - 8.0)"
+                    InputProps={{endAdornment: <InputAdornment position="end">Score</InputAdornment>}}/>
             <TextField id="protein" label="Protein" variant="outlined"
                     onChange={this.handleChange('protein', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.protein} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                    helperText="Normal Range (0 - 14)"
+                    InputProps={{endAdornment: <InputAdornment position="end">mg/dL</InputAdornment>}}/>
             <TextField id="urea" label="Urea" variant="outlined"
                     onChange={this.handleChange('urea', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.urea} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                    helperText="Normal Range (2.5 - 6.7)"
+                    InputProps={{endAdornment: <InputAdornment position="end">mmol/L</InputAdornment>}}/>
             <TextField id="uric_acid" label="Uric Acid" variant="outlined"
                     onChange={this.handleChange('uric_acid', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.uric_acid} 
-                    helperText="Normal Range (0.5 - 13)"
-                    InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
+                    helperText="Normal Range (250 - 750)"
+                    InputProps={{endAdornment: <InputAdornment position="end">mg</InputAdornment>}}/>
             </div>
             ) : (
             <div>

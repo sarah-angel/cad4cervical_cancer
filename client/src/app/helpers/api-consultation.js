@@ -31,6 +31,7 @@ const getPrediction = (consultation) => {
     })
     .catch((err) => {
         console.log(err)
+        return {error: "Something went wrong. Please try again later."}
     })
 }
 

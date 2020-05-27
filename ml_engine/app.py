@@ -116,6 +116,7 @@ def model():
     ]
 
     #Imputing missing values
+    df.replace("", np.nan, inplace=True)
     for feature in features:
         if feature in all_symptoms:
             df[feature].fillna(False, inplace=True)

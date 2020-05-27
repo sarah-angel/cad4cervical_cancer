@@ -106,120 +106,120 @@ class LabReport extends Component {
                 <div style={styles.row}>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Basophil (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Basophils (%) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.fbp.baso ? this.state.fbp.baso : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (0 - 3)
                         </Typography>
                     </span>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Eosinophil (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Eosinophils (%) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.fbp.eos ? this.state.fbp.eos : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (0 - 7)
                         </Typography>
                     </span>
                 </div>
                 <div style={styles.row}>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Haemoglobin (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Haemoglobin (g/dL) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.fbp.hb ? this.state.fbp.hb : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (12.5 - 17.0)
                         </Typography>
                     </span>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Lymphocyte (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Lymphocytes (%) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.fbp.lymphocyte ? this.state.fbp.lymphocyte : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (14 - 46)
                         </Typography>
                     </span>
                 </div>
                 <div style={styles.row}>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            MCH (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            MCH (pg) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.fbp.mch ? this.state.fbp.mch : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (27.0 - 34.0)
                         </Typography>
                     </span>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            MCV (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            MCV (fL) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.mcv ? this.state.mcv : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (80 - 98)
                         </Typography>
                     </span>
                 </div>
                 <div style={styles.row}>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Neutrophil (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Neutrophils (%) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.fbp.neutrophil ? this.state.fbp.neutrophil: 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (40 - 74)
                         </Typography>
                     </span>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Platelet (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Platelets (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>3</Typography>/μL) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.fbp.plt ? this.state.fbp.plt : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (140 - 415)
                         </Typography>
                     </span>
                 </div>
                 <div style={styles.row}>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            RBC (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            RBC (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>6</Typography>/μL) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.fbp.rbc ? this.state.fbp.rbc : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (4.10 - 5.60)
                         </Typography>
                     </span>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            WBC (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            WBC (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>3</Typography>/μL) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.fbp.wbc ? this.state.fbp.wbc : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (4.0 - 10.5)
                         </Typography>
                     </span>
                 </div>
@@ -231,85 +231,85 @@ class LabReport extends Component {
                 <div style={styles.row}>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Bilirubin (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Bilirubin (μmol/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.urinalysis.bilirubin ? this.state.urinalysis.bilirubin : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (3 - 17)
                         </Typography>
                     </span>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Creatinine (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Creatinine (μmol/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.urinalysis.creatinine ? this.state.urinalysis.creatinine : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (M 68 - 150, W 68 - 98)
                         </Typography>
                     </span>
                 </div>
                 <div style={styles.row}>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Epithelial (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Epithelial (hpf) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.urinalysis.epithelial ? this.state.urinalysis.epithelial : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (1 - 5)
                         </Typography>
                     </span>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            pH (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            pH (score)
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.urinalysis.ph ? this.state.urinalysis.ph : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (4.5 - 8.0)
                         </Typography>
                     </span>
                 </div>
                 <div style={styles.row}>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Protein (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Protein (mg/dL) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.urinalysis.protein ? this.state.urinalysis.protein : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (0 - 14)
                         </Typography>
                     </span>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Urea (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Urea (mmol/L) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.urinalysis.urea ? this.state.urinalysis.urea : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (2.5 - 6.7)
                         </Typography>
                     </span>
                 </div>
                 <div style={styles.row}>
                     <span style={styles.field}>
                         <Typography style={{color: 'grey', fontSize: 14, display: 'flex'}}>
-                            Uric Acid (10<Typography style={{fontSize: 10, verticalAlign: 'top'}}>9</Typography>/L) 
+                            Uric Acid (mg) 
                         </Typography>
                         <Typography style={{textAlign: 'left'}}>
                             {this.state.urinalysis.uric_acid ? this.state.urinalysis.uric_acid : 'n/a'}
                         </Typography>
                         <Typography style={{color: 'grey', fontSize: 14}}>
-                            Normal Range (0.6 - 13.0)
+                            Normal Range (250 - 750)
                         </Typography>
                     </span>
                     {/* <span style={styles.field}>

@@ -65,7 +65,7 @@ class SearchPatient extends Component {
                 />
 
                 {this.state.error && (
-                    <Typography component="p" color="error">
+                    <Typography component="p" color="error" style={{maxWidth: 700, margin: 'auto'}}>
                         {this.state.error}
                     </Typography>
                 )}
