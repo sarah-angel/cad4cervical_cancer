@@ -36,17 +36,21 @@ const saveConsultation = (req, res) => {
         })    
 }
 
-//Fetches the latest record if there is no prediction value
+//Fetches the latest record if there is no diagnosis value
 const getPendingConsultation = (req, res) => {
     Consultation.findOne({ 'patient_ID': req.body.patient_ID})
     .sort({created : -1}).limit(1)
     .exec( (err, consultation) => {
-        if (err || !consultation)
+        if (!consultation){
+            return res.status(200).json({})
+        }
+
+        if (err)
             return res.status(400).json({
                 error: dbErrorHandler(err)
             })
 
-        if ( consultation.prediction == null )
+        if ( consultation.diagnosis === null || consultation.diagnosis === {} || consultation.diagnosis === "" )
             res.status(200).json(consultation)
         else    
             res.status(200).json({})
@@ -72,6 +76,11 @@ const getHistory = (req, res) => {
 
 const getPrediction = (req, res) => {
 
+    return res.json({
+        diagnosis: true,
+        confidence: 87
+    })
+    
     axios.post(config.modelUri, req.body)
         .then((result) => {
             return res.json({

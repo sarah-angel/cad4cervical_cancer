@@ -20,6 +20,10 @@ router.route('/api/consultation/history/:patientID')
 router.route('/api/lab/save')
     .post(labCtrl.saveTest)
 
+//Check if consultation done befor lab
+router.route('/api/lab/checkConsultation')
+    .post(labCtrl.checkConsultationExists)
+
 //Get lab test
 router.route('/api/lab/getLabTest/:consultationID')
     .get(labCtrl.readTest)
