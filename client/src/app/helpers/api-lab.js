@@ -17,6 +17,24 @@ const save = async (report) => {
     
 }
 
+const getConsultationPendingLab = async (data) => {
+    return fetch('/api/lab/checkConsultation', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then((response) => {
+        return response.json()
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+    
+}
+
 const getByConsultationID = async (consultation_ID) => {
     return fetch('/api/lab/getLabTest/' + consultation_ID, {
         method: 'GET',
@@ -34,4 +52,4 @@ const getByConsultationID = async (consultation_ID) => {
     
 }
 
-export { save, getByConsultationID }
+export { save, getByConsultationID, getConsultationPendingLab }

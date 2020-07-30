@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import Card, { CardContent, CardActions } from 'material-ui/Card'
-import { Button, TextField, Typography } from '@material-ui/core'
+import { Button, TextField, Typography, Toolbar } from '@material-ui/core'
 import Icon from 'material-ui/Icon'
+import { Alert } from '@material-ui/lab'
 
 import { signin } from '../../auth/api-auth'
 import auth from '../../auth/auth-helper'
@@ -72,6 +73,16 @@ class Signin extends Component {
     
         return (
             <div>
+                <Toolbar />
+                
+                {this.state.error && 
+                    <Alert severity="error" style={{width: "60%", margin: "auto", marginTop: 20}}
+                        onClose={() => this.setState({error: null})}
+                    >
+                        {this.state.error}
+                    </Alert>
+                }
+            
                 <Card style={styles.card}>
                     <CardContent>
                         {/* <Typography type="headline" component="h2" 
@@ -87,12 +98,6 @@ class Signin extends Component {
                                     style={styles.textField}
                                     label="Password" onChange={this.handleChange('password')}
                                     margin="normal" value={this.state.password}/> <br/>
-                        {this.state.error && (
-                            <Typography component="p" color="error">
-                                <Icon color="error" style={styles.error}></Icon>
-                                {this.state.error}
-                            </Typography>
-                        )}
                     </CardContent>
                     <CardActions>
                         <Button color="primary" 

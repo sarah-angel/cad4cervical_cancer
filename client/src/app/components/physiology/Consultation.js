@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import { TextField, Typography,
      InputAdornment, MenuItem,
      Button, Checkbox, 
-     FormControlLabel, Tabs, Tab
+     FormControlLabel, Tabs, Tab,
+     Modal, Card
 } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
+import { Alert } from '@material-ui/lab'
 
 import { getPending, getPrediction, save } from '../../helpers/api-consultation'
 import { getByConsultationID } from '../../helpers/api-lab'
@@ -58,6 +60,39 @@ const styles = {
         bottom: 20,
         width: '100%',
         height: '100%',
+    },
+    modal: {
+        outline: 0,
+        '&:focus': {
+            outline: "none",
+            borderWidth: "0px",
+            backgroundColor: "white",
+        },
+        overflow: "scroll",
+    },
+    btnGroup: {
+        display: "flex", 
+        flexDirection: "row", 
+        flexWrap: "wrap", 
+        //float: "right",
+        justifyContent: "center",
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 20, 
+        marginRight: 20,
+    },
+    confirmCard: {
+        top: "50%", 
+        left: "50%", 
+        transform: 'translate(-50%, -50%)', 
+        width: "20%", 
+        minWidth: 200,
+        position: "absolute", 
+        border: '0px solid #000', 
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: '0 auto',
     },
 }
 
@@ -126,7 +161,7 @@ class Consultation extends Component {
         family_history: '',
         symptom_duration: '',
         existing_conditions: [],
-        diagnosis: '',
+        diagnosis: null,
         notes: '',
         disagree: false,
         lab: false,
@@ -136,6 +171,13 @@ class Consultation extends Component {
         symptoms: [],
         tab: 0,
         diagnosisBtn: false,
+        openModal: false,
+        error: {
+            weight: null,
+            height: null,
+            temperature: null,
+            children: null
+        },
     }
 
     /**
@@ -159,7 +201,7 @@ class Consultation extends Component {
                 data = res
             }
         }).then(res => {
-            //Get lab results       
+            //Get lab results    
             if (data._id)
             getByConsultationID(data._id).then((labData) => {
                 if( !labData ) return
@@ -172,7 +214,8 @@ class Consultation extends Component {
             })
         })
 
-        await this.setState({
+        if ( data._id )
+        this.setState({
             consultation_ID: data._id,
             symptoms: data.symptoms,
             weight: !data.weight ? '' : data.weight ,
@@ -260,6 +303,15 @@ class Consultation extends Component {
     }
 
     handleChange = name => event => {
+        if (name == "weight" || name == "height" || name == "temperature" || name == "children"){
+            if ( isNaN(event.target.value)){
+                this.setState(prevState => ({error: {...prevState.error, [name] : true}}))
+
+            }else {
+                this.setState(prevState => ({error: {...prevState.error, [name] : null}}))
+            }
+        }
+
         if (!this.state.readOnly)
             if ( name == "disagree"){
                 this.setState({disagree: event.target.checked})
@@ -284,6 +336,22 @@ class Consultation extends Component {
     render() {
         return(<div style={styles.root}>
 
+            { typeof this.state.error ===  'string' && 
+                <Alert severity="error" style={{width: "70%", margin: "auto"}}
+                    onClose={() => this.setState({error: null})}
+                >
+                    {this.state.error}
+                </Alert>
+            }
+         
+            { this.state.error && typeof this.state.error.message === 'string' && (
+                <Alert severity="error" style={{width: "70%", margin: "auto"}}
+                    onClose={() => this.setState({error: null})}
+                >
+                    {this.state.error.message}
+                </Alert>
+            )}
+
             <Tabs
                 value={this.state.tab}
                 onChange={this.handleTabChange}
@@ -299,18 +367,26 @@ class Consultation extends Component {
             {this.state.tab === 0 && (
             <div style={styles.textFieldDiv}>                
                 <TextField id="weight" label="Weight" variant="outlined"
+                        helperText={this.state.error.weight ? "Please provide a valid input": ""} 
+                        error={this.state.error.weight}
                         onChange={this.handleChange('weight')}
                         margin="normal" style={styles.textField} value={this.state.weight}
                         InputProps={{endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}/>
                 <TextField id="height" label="Height" variant="outlined"
+                        helperText={this.state.error.height ? "Please provide a valid input": ""} 
+                        error={this.state.error.height}
                         onChange={this.handleChange('height')}
                         margin="normal" style={styles.textField} value={this.state.height}
                         InputProps={{endAdornment: <InputAdornment position="end">cm</InputAdornment>}}/>
                 <TextField id="temperature" label="Temperature" variant="outlined"
+                        helperText={this.state.error.temperature ? "Please provide a valid input": ""} 
+                        error={this.state.error.temperature}
                         onChange={this.handleChange('temperature')}
                         margin="normal" style={styles.textField} value={this.state.temperature}
                         InputProps={{endAdornment: <InputAdornment position="end">°C</InputAdornment>}}/>
                 <TextField id="children" label="Children" variant="outlined"
+                        helperText={this.state.error.children ? "Please provide a valid input": ""} 
+                        error={this.state.error.children}
                         onChange={this.handleChange('children')}
                         margin="normal" style={styles.textField} value={this.state.children} />
                 <br/>
@@ -434,7 +510,7 @@ class Consultation extends Component {
                                 <Typography style={{color: 'grey', fontSize: 14}}>
                                     Confidence
                                 </Typography>
-                                <Typography style={{textAlign: 'right'}}>
+                                <Typography style={{textAlign: 'left'}}>
                                     {this.state.diagnosis.confidence ? this.state.diagnosis.confidence + '%' : 'n/a'}
                                 </Typography>
                             </span>
@@ -461,7 +537,7 @@ class Consultation extends Component {
                 <div style={styles.controlBtns}>
                     <Button color="primary" variant="outlined"
                         style={{marginLeft: 10}}
-                        onClick={this.discard}
+                        onClick={() => this.setState({openModal: true})}
                     >
                         Discard
                     </Button>
@@ -483,17 +559,26 @@ class Consultation extends Component {
                 </div>
             )}
 
-
-            { typeof this.state.error ===  'string' && (
-                <Typography color="error">
-                    {this.state.error}
-                </Typography>
-            )}
-            { this.state.error && typeof this.state.error.message === 'string' && (
-                <Typography color="error">
-                    {this.state.error.message}
-                </Typography>
-            )}
+            <Modal open={this.state.openModal} style={styles.modal} >
+                <Card style={styles.confirmCard} >
+                    <Typography style={{marginTop: 10}} >
+                        Are you sure you want to discard this consultation?
+                    </Typography>
+                    <div style={styles.btnGroup} >
+                        <Button 
+                            //style={{color: "white", backgroundColor: "red", marginLeft: 10}}
+                            onClick={() => this.setState({openModal: false})}
+                        >
+                            Cancel
+                        </Button>
+                        <Button style={{marginLeft: 10, float: "right"}}
+                            onClick={() =>  window.location.href="/"}//this.setState({openModal: false})}
+                        > 
+                            Discard
+                        </Button>
+                    </div>
+                </Card>
+            </Modal>
 
         </div>)
     }

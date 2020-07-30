@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Button, Typography, TextField, Checkbox, FormControlLabel } from '@material-ui/core'
+import { Button, Typography, TextField, Checkbox, FormControlLabel, Modal, Card } from '@material-ui/core'
 import { CardContent, CardMedia } from '@material-ui/core'
 import { findDOMNode } from 'react-dom'
+import { Alert } from '@material-ui/lab'
 
 import PatientDetails from '../patient/PatientDetails'
 import auth from '../../auth/auth-helper'
@@ -48,6 +49,39 @@ const styles = {
         width: '100%',
         height: '100%',
     },
+    modal: {
+        outline: 0,
+        '&:focus': {
+            outline: "none",
+            borderWidth: "0px",
+            backgroundColor: "white",
+        },
+        overflow: "scroll",
+    },
+    btnGroup: {
+        display: "flex", 
+        flexDirection: "row", 
+        flexWrap: "wrap", 
+        //float: "right",
+        justifyContent: "center",
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 20, 
+        marginRight: 20,
+    },
+    confirmCard: {
+        top: "50%", 
+        left: "50%", 
+        transform: 'translate(-50%, -50%)', 
+        width: "20%", 
+        minWidth: 200,
+        position: "absolute", 
+        border: '0px solid #000', 
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: '0 auto',
+    },
 }
 class Assessment extends Component{
     state = {
@@ -59,8 +93,10 @@ class Assessment extends Component{
         disagree: false,
         showOriginal: true,
         readOnly: false,
+        openModal: false,
         error: '',
     }
+    
 
     getAssessment = (image) => {
         assessImage(image).then((data) => {
@@ -129,14 +165,22 @@ class Assessment extends Component{
         if ( !this.state.image)
             return(
                 <div style={styles.uploadCard} onClick={this.openUploadDialog}>
-                    <input ref="imageUpload" type="file" 
+                    {this.state.error && 
+                        <Alert severity="error" style={{width: "70%", margin: "auto"}}
+                            onClose={() => this.setState({error: null})}
+                        >
+                            {this.state.error}
+                        </Alert>
+                    }
+                    
+                    <input ref="imageUpload" type="file" accept="image/*"
                         onChange={this.handleUpload} 
                         style={{display: 'none'}} 
                     />
                     <CardMedia component="img" image={uploadImg} style={styles.uploadMedia} />
                     <CardContent>
                         <Typography>
-                            Upload Patient MRI
+                            Upload Pap Smear Image
                         </Typography>
                     </CardContent>
                 </div>
@@ -144,10 +188,18 @@ class Assessment extends Component{
 
         return (
             <div style={styles.root}>
-                               
-                { this.state.showOriginal 
+                {this.state.error && 
+                    <Alert severity="error" style={{width: "70%", margin: "auto"}}
+                        onClose={() => this.setState({error: null})}
+                    >
+                        {this.state.error}
+                    </Alert>
+                }
+                <img src={this.state.image} alt="Patients Pap Smear image" style={styles.image} />   
+      
+                {/* this.state.showOriginal 
                     ?<div>
-                       <img src={this.state.image} alt="Patients MRI" style={styles.image} />   
+                       <img src={this.state.image} alt="Patients Pap Smear image" style={styles.image} />   
                        <Button color="primary"
                             onClick={() => this.setState({showOriginal: false})} >
                            View Texture Heatmap
@@ -160,7 +212,7 @@ class Assessment extends Component{
                             View Original
                         </Button>
                      </div>
-                }
+                */}
 
                 <br/>
                         
@@ -209,7 +261,7 @@ class Assessment extends Component{
                     <div style={styles.controlBtns}>
                         <Button color="primary" variant="outlined"
                             style={{marginLeft: 10}}
-                            onClick={this.discard}
+                            onClick={() => this.setState({openModal: true})}
                         >
                             Discard
                         </Button>
@@ -221,13 +273,28 @@ class Assessment extends Component{
                         </Button>
                     </div>
                 )}
-                
 
-                { this.state.error && (
-                    <Typography color="error">
-                        {this.state.error}
+            <Modal open={this.state.openModal} style={styles.modal} >
+                <Card style={styles.confirmCard} >
+                    <Typography style={{marginTop: 10, textAlign: "center"}} >
+                        Are you sure you want to discard this test?
                     </Typography>
-                ) }
+                    <div style={styles.btnGroup} >
+                        <Button 
+                            //style={{color: "white", backgroundColor: "red", marginLeft: 10}}
+                            onClick={() => this.setState({openModal: false})}
+                        >
+                            Cancel
+                        </Button>
+                        <Button style={{marginLeft: 10, float: "right"}}
+                            onClick={() =>  window.location.href="/"}//this.setState({openModal: false})}
+                        > 
+                            Discard
+                        </Button>
+                    </div>
+                </Card>
+            </Modal>
+                
             </div>
 
             

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Tabs, Tab, Typography } from '@material-ui/core'
+import { Tabs, Tab, Typography, Toolbar } from '@material-ui/core'
 import  SearchBar from 'material-ui-search-bar'
 import { withStyles } from '@material-ui/core/styles'
 import SearchIcon  from '@material-ui/icons/Search'
@@ -46,6 +46,8 @@ class SearchPatient extends Component {
     render() {
         return (
             <div style={{padding: 20}}>
+                <Toolbar />
+                
                 <div style={styles.headers}>
                     <Typography style={{textAlign: 'center', fontWeight: 'bold'}}
                         color="primary" variant="h4"

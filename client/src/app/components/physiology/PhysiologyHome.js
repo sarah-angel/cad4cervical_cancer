@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { Tabs, Tab, Typography } from 'material-ui'
+import { Tabs, Tab, IconButton, Hidden, Drawer, Toolbar, Divider } from '@material-ui/core'
+import CloseIcon from '@material-ui/icons/Close'
+import { withStyles } from '@material-ui/core/styles'
 
 import SearchPatient from '../search/SearchPatient'
 import PatientDetails from '../patient/PatientDetails'
@@ -8,10 +10,19 @@ import History from './History'
 import ConsultationReport from './ConstultationReport'
 import { getHistory } from '../../helpers/api-consultation'
 
-const styles = {
-    
-}
-
+const styles = theme => ({
+    toolbar: {
+        backgroundColor: theme.palette.primary.main
+    },
+    drawer: {
+        //width: 300,
+        flexGrow: 1,
+        flexShrink: 0,
+    },
+    drawerPaper: {
+        width: 300,
+    }
+})
 class PhysiologyHome extends Component {
     constructor(props) {
         super(props)
@@ -60,15 +71,63 @@ class PhysiologyHome extends Component {
         return (
             <div>
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
-                    <div style={{flex: 1, maxWidth: 300}} > 
-                        <PatientDetails patient={this.state.patient} />
-                        {this.state.history && 
-                            <History history={this.state.history} 
-                                setViewReportIndex={this.setViewReportIndex} 
-                            />
-                        }
-                    </div>
+    
+                    <Hidden smUp implementation="css">
+                            <Drawer variant="temporary"
+                                open={this.props.mobileOpen}
+                                onClose={this.props.handleDrawerToggle}
+                                //ModalProps={{keepMounted: true}}
+                                //classes={{ paper: this.props.classes.drawerPaper}}
+                                style={{}}
+                            >
+                                <Toolbar className={this.props.classes.toolbar}>
+                                    <IconButton
+                                        onClick={this.props.handleDrawerToggle}
+                                        style={{marginLeft: '90%'}}
+                                    >
+                                        <CloseIcon style={{color: "white"}} />
+                                    </IconButton>
+                                </Toolbar>
+
+                                
+                           
+                                <div style={{marginTop: 0, flex: 1}} > 
+                                    <PatientDetails patient={this.state.patient} />
+
+                                    <Divider />
+
+                                    {this.state.history && 
+                                        <History history={this.state.history} 
+                                            setViewReportIndex={this.setViewReportIndex} 
+                                        />
+                                    }
+                                </div>
+                        </Drawer>
+                    </Hidden>
+
+                    <Hidden smDown implementation="css">
+                        {/* <Drawer
+                          className={this.props.classes.drawer}
+                          variant="permanent"
+                        > */}
+                            <Toolbar />
+                            <div style={{marginTop: 0, flex: 1, borderRightWidth: 1, borderRightColor: "grey", overflowX: "visible"}} > 
+                                <PatientDetails patient={this.state.patient} />
+                                
+                                <Divider />
+
+                                {this.state.history && 
+                                    <History history={this.state.history} 
+                                        setViewReportIndex={this.setViewReportIndex} 
+                                    />
+                                }
+                            </div>
+                        {/* </Drawer> */}
+                    </Hidden>
+
                     <div style={{flex: 1, justifyContent: 'center'}} > 
+                        <Toolbar />
+                        
                         {this.state.viewReport
                             ? (
                                 <ConsultationReport report={this.state.viewReport} 
@@ -85,4 +144,4 @@ class PhysiologyHome extends Component {
     }
 }
 
-export default PhysiologyHome
+export default withStyles(styles)(PhysiologyHome)

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Tabs, Tab, Typography } from 'material-ui'
+import { Tabs, Tab, IconButton, Hidden, Drawer, Toolbar, Divider } from '@material-ui/core'
+import CloseIcon from '@material-ui/icons/Close'
 import { CardContent, CardMedia } from 'material-ui/Card'
-import { findDOMNode } from 'react-dom'
+import { withStyles } from '@material-ui/core/styles'
 
 import uploadImg from '../../../assets/images/upload-big-arrow.png'
 import SearchPatient from '../search/SearchPatient'
@@ -11,7 +12,7 @@ import Assessment from './Assessment'
 import History from '../physiology/History'
 import AssessmentReport from './AssessmentReport'
 
-const styles = {
+const stylesx = {
     uploadCard: {
         maxWidth: 800,
         margin: 'auto',
@@ -25,6 +26,20 @@ const styles = {
         margin: '0 auto'
     }
 }
+
+const styles = theme => ({
+    toolbar: {
+        backgroundColor: theme.palette.primary.main
+    },
+    drawer: {
+        //width: 300,
+        flexGrow: 1,
+        flexShrink: 0,
+    },
+    drawerPaper: {
+        width: 300,
+    }
+})
 
 class RadiologyHome extends Component {
     constructor(props) {
@@ -75,15 +90,62 @@ class RadiologyHome extends Component {
         return (
             <div>
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
-                    <div style={{flex: 1, maxWidth: 300}} > 
-                        <PatientDetails patient={this.state.patient} />
-                        {this.state.history && 
-                            <History history={this.state.history} 
-                                setViewReportIndex={this.setViewReportIndex} 
-                            />
-                        }
-                    </div>
-                    <div style={{flex: 1, justifyContent: 'center'}} > 
+                    <Hidden smUp implementation="css">
+                            <Drawer variant="temporary"
+                                open={this.props.mobileOpen}
+                                onClose={this.props.handleDrawerToggle}
+                                //ModalProps={{keepMounted: true}}
+                                //classes={{ paper: this.props.classes.drawerPaper}}
+                                style={{}}
+                            >
+                                <Toolbar className={this.props.classes.toolbar}>
+                                    <IconButton
+                                        onClick={this.props.handleDrawerToggle}
+                                        style={{marginLeft: '90%'}}
+                                    >
+                                        <CloseIcon style={{color: "white"}} />
+                                    </IconButton>
+                                </Toolbar>
+
+                                
+                           
+                                <div style={{marginTop: 0, flex: 1}} > 
+                                    <PatientDetails patient={this.state.patient} />
+
+                                    <Divider />
+
+                                    {this.state.history && 
+                                        <History history={this.state.history} 
+                                            setViewReportIndex={this.setViewReportIndex} 
+                                        />
+                                    }
+                                </div>
+                        </Drawer>
+                    </Hidden>
+
+                    <Hidden smDown implementation="css">
+                        {/* <Drawer
+                          className={this.props.classes.drawer}
+                          variant="permanent"
+                        > */}
+                            <Toolbar />
+                            <div style={{marginTop: 0, flex: 1, borderRightWidth: 1, borderRightColor: "grey", overflowX: "visible"}} > 
+                                <PatientDetails patient={this.state.patient} />
+                                
+                                <Divider />
+
+                                {this.state.history && 
+                                    <History history={this.state.history} 
+                                        setViewReportIndex={this.setViewReportIndex} 
+                                    />
+                                }
+                            </div>
+                        {/* </Drawer> */}
+                    </Hidden>
+
+                    <div style={{flex: 1, justifyContent: 'center', borderLeftWidth: 1}} > 
+                        <Toolbar />
+
                         {this.state.viewReport 
                             ? <AssessmentReport report={this.state.viewReport}
                                 setViewReportIndex={this.setViewReportIndex}
@@ -104,4 +166,4 @@ class RadiologyHome extends Component {
     }
 }
 
-export default RadiologyHome
+export default withStyles(styles)(RadiologyHome)

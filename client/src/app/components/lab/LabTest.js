@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { TextField, InputAdornment, MenuItem, Box, Typography, Button, Tabs, Tab } from '@material-ui/core'
+import { TextField, InputAdornment, MenuItem, Box, Typography, Button, Tabs, Tab, Modal, Card } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 
 import { save } from '../../helpers/api-lab'
 
@@ -9,6 +10,7 @@ const styles = {
         margin: '0 auto',
         //width: 800,
         minWidth: 300,
+        overflow: "hidden",
         padding: 20,
         marginBottom: 20,
         justifyContent: 'center',
@@ -44,6 +46,39 @@ const styles = {
         // bottom: 0,
         //left: '100%',
         //transform: 'translate(-100%, 0)',
+    },
+    modal: {
+        outline: 0,
+        '&:focus': {
+            outline: "none",
+            borderWidth: "0px",
+            backgroundColor: "white",
+        },
+        overflow: "scroll",
+    },
+    btnGroup: {
+        display: "flex", 
+        flexDirection: "row", 
+        flexWrap: "wrap", 
+        //float: "right",
+        justifyContent: "right",
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 20, 
+        marginRight: 20,
+    },
+    confirmCard: {
+        top: "50%", 
+        left: "50%", 
+        transform: 'translate(-50%, -50%)', 
+        width: "20%", 
+        minWidth: 200,
+        position: "absolute", 
+        border: '0px solid #000', 
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: '0 auto',
     },
 }
 
@@ -91,6 +126,8 @@ class LabTest extends Component {
         readOnly: false,
         tab: 0,
         error: '',
+        openModal: false,
+        inputError: {},
     }
 
 
@@ -143,7 +180,7 @@ class LabTest extends Component {
             else{
                 //To-Do: show success message
                 //reset state and go to lab home
-                window.location.href="/lab"
+                window.location.href="/"
             }
         })
     }
@@ -161,6 +198,7 @@ class LabTest extends Component {
     //Group is used for nested objects
     handleChange = ( name, group) => event => {
         var newVal = event.target.value
+
         if (!this.state.readOnly){
             if (group){
                 this.setState(prevState => ({ 
@@ -168,6 +206,22 @@ class LabTest extends Component {
                         ...prevState[group],
                         [name] : newVal}
                 }))
+
+                if (isNaN(newVal)){
+                    this.setState(prevState => ({
+                        inputError: {
+                            ...prevState.inputError,
+                            [name]: true
+                        }
+                    }))
+                } else {
+                    this.setState(prevState => ({
+                        inputError: {
+                            ...prevState.inputError,
+                            [name]: false
+                        }
+                    }))
+                }
             } else
                 this.setState({[name]: newVal})
         }
@@ -176,12 +230,21 @@ class LabTest extends Component {
     render(){
         return (<div style={styles.root}>
     
+            {this.state.error && 
+                <Alert severity="error" style={{width: "70%", margin: "auto"}}
+                    onClose={() => this.setState({error: null})}
+                >
+                    {this.state.error}
+                </Alert>
+            }
+
             <Tabs
                 value={this.state.tab}
                 onChange={this.handleTabChange}
                 indicatorColor="primary"
                 textColor="primary"
-                centered
+                //centered 
+                variant="scrollable"
             >              
                 <Tab label="Full Blood Picture" />
                 <Tab label="Urinalysis" />
@@ -192,41 +255,49 @@ class LabTest extends Component {
             ? (
             <div>
             <TextField id="baso" label="Basophils" variant="outlined"
+                    error={this.state.inputError.baso}
                     onChange={this.handleChange('baso', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.baso} 
                     helperText="Normal Range (0 - 3)"
                     InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>}}/>
             <TextField id="eos" label="Eosinophils" variant="outlined"
+                    error={this.state.inputError.eos}
                     onChange={this.handleChange('eos', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.eos} 
                     helperText="Normal Range (0 - 7)"
                     InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>}}/>
             <TextField id="hb" label="Haemoglobin" variant="outlined"
+                    error={this.state.inputError.hb}
                     onChange={this.handleChange('hb', 'fbp')} 
                     margin="normal" style={styles.textField} value={this.state.fbp.hb} 
                     helperText="Normal Range (12.5 - 17.0)"
                     InputProps={{endAdornment: <InputAdornment position="end">g/dL</InputAdornment>}}/>
             <TextField id="lymphocyte" label="Lymphocytes" variant="outlined"
+                    error={this.state.inputError.lymphocyte}
                     onChange={this.handleChange('lymphocyte', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.lymphocyte} 
                     helperText="Normal Range (14 - 46)"
                     InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>}}/>
             <TextField id="mch" label="MCH" variant="outlined"
+                    error={this.state.inputError.mch}
                     onChange={this.handleChange('mch', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.mch} 
                     helperText="Normal Range (27.0 - 34.0)"
                     InputProps={{endAdornment: <InputAdornment position="end">pg</InputAdornment>}}/>
             <TextField id="mcv" label="MCV" variant="outlined"
+                    error={this.state.inputError.mcv}
                     onChange={this.handleChange('mcv', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.mcv} 
                     helperText="Normal Range (80 - 98)"
                     InputProps={{endAdornment: <InputAdornment position="end">fL</InputAdornment>}}/>
             <TextField id="neutrophil" label="Neutrophils" variant="outlined"
+                    error={this.state.inputError.neutrophil}
                     onChange={this.handleChange('neutrophil', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.neutrophil} 
                     helperText="Normal Range (40 - 74)"
                     InputProps={{endAdornment: <InputAdornment position="end">%</InputAdornment>}}/>
             <TextField id="plt" label="Platelets" variant="outlined"
+                    error={this.state.inputError.plt}
                     onChange={this.handleChange('plt', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.plt} 
                     helperText="Normal Range (140 - 415)"
@@ -236,6 +307,7 @@ class LabTest extends Component {
                         </InputAdornment>
                     }}/>
             <TextField id="rbc" label="RBC" variant="outlined"
+                    error={this.state.inputError.rbc}
                     onChange={this.handleChange('rbc', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.rbc} 
                     helperText="Normal Range (4.10 - 5.60)"
@@ -245,6 +317,7 @@ class LabTest extends Component {
                         </InputAdornment>
                     }}/>
             <TextField id="wbc" label="WBC" variant="outlined"
+                    error={this.state.inputError.wbc}
                     onChange={this.handleChange('wbc', 'fbp')}
                     margin="normal" style={styles.textField} value={this.state.fbp.wbc} 
                     helperText="Normal Range (4.0 - 10.5)"
@@ -257,36 +330,43 @@ class LabTest extends Component {
             ) : ( this.state.tab === 1 ) ? (        
             <div>
             <TextField id="bilirubin" label="Bilirubin" variant="outlined"
+                    error={this.state.inputError.bilirubin}
                     onChange={this.handleChange('bilirubin', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.bilirubin} 
                     helperText="Normal Range (3 - 17)"
                     InputProps={{endAdornment: <InputAdornment position="end">μmol/L</InputAdornment>}}/>
             <TextField id="creatinine" label="Creatinine" variant="outlined"
+                    error={this.state.inputError.creatinine}
                     onChange={this.handleChange('creatinine', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.creatinine} 
                     helperText="Normal Range (M 68 - 150, W 6 - 98)"
                     InputProps={{endAdornment: <InputAdornment position="end">μmol/L</InputAdornment>}}/>
             <TextField id="epithelial" label="Epithelial" variant="outlined"
+                    error={this.state.inputError.epithelial}
                     onChange={this.handleChange('epithelial', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.epithelial} 
                     helperText="Normal Range (1 - 5)"
                     InputProps={{endAdornment: <InputAdornment position="end">hpf</InputAdornment>}}/>
             <TextField id="ph" label="pH" variant="outlined"
+                    error={this.state.inputError.ph}
                     onChange={this.handleChange('ph', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.ph} 
                     helperText="Normal Range (4.5 - 8.0)"
                     InputProps={{endAdornment: <InputAdornment position="end">Score</InputAdornment>}}/>
             <TextField id="protein" label="Protein" variant="outlined"
+                    error={this.state.inputError.protein}
                     onChange={this.handleChange('protein', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.protein} 
                     helperText="Normal Range (0 - 14)"
                     InputProps={{endAdornment: <InputAdornment position="end">mg/dL</InputAdornment>}}/>
             <TextField id="urea" label="Urea" variant="outlined"
+                    error={this.state.inputError.urea}
                     onChange={this.handleChange('urea', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.urea} 
                     helperText="Normal Range (2.5 - 6.7)"
                     InputProps={{endAdornment: <InputAdornment position="end">mmol/L</InputAdornment>}}/>
             <TextField id="uric_acid" label="Uric Acid" variant="outlined"
+                    error={this.state.inputError.uric_acid}
                     onChange={this.handleChange('uric_acid', 'urinalysis')}
                     margin="normal" style={styles.textField} value={this.state.urinalysis.uric_acid} 
                     helperText="Normal Range (250 - 750)"
@@ -332,7 +412,7 @@ class LabTest extends Component {
                 <div style={styles.controlBtns}>
                     <Button color="primary" variant="outlined"
                         style={{marginLeft: 10}}
-                        onClick={this.discard}
+                        onClick={() => this.setState({openModal: true})}
                     >
                         Discard
                     </Button>
@@ -345,12 +425,29 @@ class LabTest extends Component {
                     
                 </div>
             )}
+
+
+            <Modal open={this.state.openModal} style={styles.modal} >
+                <Card style={styles.confirmCard} >
+                    <Typography style={{marginTop: 10}} >
+                        Are you sure you want to discard this lab test?
+                    </Typography>
+                    <div style={styles.btnGroup} >
+                        <Button 
+                            //style={{color: "white", backgroundColor: "red", marginLeft: 10}}
+                            onClick={() => this.setState({openModal: false})}
+                        >
+                            Cancel
+                        </Button>
+                        <Button style={{marginLeft: 10, float: "right"}}
+                            onClick={() =>  window.location.href="/"}//this.setState({openModal: false})}
+                        > 
+                            Discard
+                        </Button>
+                    </div>
+                </Card>
+            </Modal>
             
-            { this.state.error && (
-                <Typography color="error">
-                    {this.state.error}
-                </Typography>
-            )}
         </div>)
     }
 }

@@ -90,7 +90,9 @@ class AssessmentReport extends Component{
                     <span style={{float: "right"}}>{this.getDateString(this.state.report.created)}</span>
                 </div>
 
-                { this.state.showOriginal 
+                <img src={this.state.report.image} alt="Patients Pap Smear Image" style={styles.image} />   
+
+                {/* this.state.showOriginal 
                     ?<div>
                        <img src={this.state.report.image} alt="Patients MRI" style={styles.image} />   
                        <Button color="primary"
@@ -105,7 +107,7 @@ class AssessmentReport extends Component{
                             View Original
                         </Button>
                      </div>
-                }
+                */}
                 
                 <div style={styles.row}>
                     <span style={styles.field}>
